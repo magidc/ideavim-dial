@@ -54,7 +54,7 @@ jobs:
           fi
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew buildPlugin
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
