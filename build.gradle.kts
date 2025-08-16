@@ -7,7 +7,7 @@ plugins {
     kotlin("jvm") version "2.2.0"
     id("org.jetbrains.intellij.platform") version "2.6.0"
     id("org.jetbrains.changelog") version "2.3.0"
-    id("com.diffplug.spotless") version "6.25.0"
+    id("com.diffplug.spotless") version "7.2.1"
     id("pmd")
 }
 
@@ -99,9 +99,7 @@ spotless {
     }
     kotlin {
         ktlint()
-        ktfmt().googleStyle().configure {
-            it.setRemoveUnusedImport(true)
-        }
+        ktfmt().googleStyle()
         trimTrailingWhitespace()
         endWithNewline()
     }
