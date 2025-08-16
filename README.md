@@ -301,6 +301,5 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-- Inspired by [ideavim-switch](https://github.com/jphalip/ideavim-switch)
-- Inspired by [dial.nvim](https://github.com/monaqa/dial.nvim) for Neovim
-- Built on top of the excellent [IdeaVim](https://github.com/JetBrains/ideavim) plugin
+- Inspired by [dial.nvim](https://github.com/monaqa/dial.nvim) for Neovim and [ideavim-switch](https://github.com/jphalip/ideavim-switch) plugin for JetBrains IDEs
+- Built on top of [IdeaVim](https://github.com/JetBrains/ideavim) plugin

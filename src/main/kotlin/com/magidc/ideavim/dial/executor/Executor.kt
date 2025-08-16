@@ -85,7 +85,7 @@ private fun buildWordSetExecutors(
         "(?:${words.joinToString("|") { Regex.escape(it) }})"
 
     if (preserveCase)
-        pattern = RegexUtils.wordCaseInsensitive(pattern)
+        pattern = RegexUtils.caseInsensitive(pattern)
 
     val forwardMap: Map<String, String> =
         words

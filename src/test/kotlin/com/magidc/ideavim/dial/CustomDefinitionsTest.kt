@@ -75,6 +75,8 @@ class CustomDefinitionsTest : BaseTest() {
     }
 
     fun testNormalizedCasePatterns() {
+        assertThat(execute("meg" + CARET + "alpha")).isEqualTo("meg" + CARET + "beta")
+
         // Test case insensitivity and case preservation for uniform case
         assertThat(execute("" + CARET + "ALPHA")).isEqualTo("" + CARET + "BETA") // Preserves uppercase
         assertThat(execute("" + CARET + "alpha")).isEqualTo("" + CARET + "beta") // Preserves lowercase
