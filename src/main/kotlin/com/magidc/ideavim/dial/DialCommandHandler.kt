@@ -32,13 +32,13 @@ class DialCommandHandler(
             if (null != cachedExecutor)
                 cachedExecutor.orElse(null)?.findMatch(text, lineRange.caretOffset, reverse)
             else {
-                executors.parallelStream()
+                executors
+                    .parallelStream()
                     .map { it.findMatch(text, lineRange.caretOffset, reverse) }
                     .filter { it != null }
-                    .min(Comparator.comparingInt<Match> { it.start }.thenComparing { 1 / it.replacement.length })
+                    .max(Comparator.comparingInt<Match> { -1 * (it.start) }.thenComparing { it.executor.priority }.thenComparing { it.replacement.length })
                     .orElse(null)
             }
-
         if (bestMatch != null) {
             editorAdapter.replace(editor, lineRange, bestMatch)
             executorCache.remove(textFromCaret)

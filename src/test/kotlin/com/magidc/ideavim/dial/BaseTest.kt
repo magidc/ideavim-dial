@@ -33,10 +33,10 @@ abstract class BaseTest : BasePlatformTestCase() {
                 `when`<VariableService> { VimPlugin.getVariableService() }.thenReturn(variableService)
             }
 
-        `when`(variableService.getGlobalVariableValue("dial_definitions"))
+        `when`(variableService.getGlobalVariableValue(Dial.DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME))
             .thenReturn(VimString(getDefinitions()))
 
-        `when`(variableService.getGlobalVariableValue("dial_custom_definitions"))
+        `when`(variableService.getGlobalVariableValue(Dial.DIAL_CUSTOM_DEFINITIONS_VARIABLE_NAME))
             .thenReturn(getCustomDefinitions())
     }
 

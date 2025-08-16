@@ -2,7 +2,11 @@ package com.magidc.ideavim.dial.executor
 
 import com.magidc.ideavim.dial.model.Match
 import com.magidc.ideavim.dial.model.RegexUtils
-
+enum class ExecutorPriority(val value: Int) {
+    BASIC(1),
+    LANGUAGE_SPECIFIC(2),
+    CUSTOM_EXECUTOR(3),
+}
 open class Executor(
     val category: String,
     val group: String,
@@ -12,6 +16,7 @@ open class Executor(
     val preserveCase: Boolean = false,
     val matchWithin: Boolean = false,
     val id: String = category + "_" + group,
+    var priority: ExecutorPriority = ExecutorPriority.BASIC,
     private val regex: Regex = regexPattern.toRegex(),
 ) {
     open fun findMatch(text: String, cursorOffset: Int, reverse: Boolean): Match? {

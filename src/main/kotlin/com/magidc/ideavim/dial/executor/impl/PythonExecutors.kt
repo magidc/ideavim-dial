@@ -1,6 +1,7 @@
 package com.magidc.ideavim.dial.executor.impl
 
 import com.magidc.ideavim.dial.executor.Executor
+import com.magidc.ideavim.dial.executor.ExecutorPriority
 import com.magidc.ideavim.dial.executor.regexExecutor
 import com.magidc.ideavim.dial.executor.wordSet
 
@@ -28,6 +29,7 @@ object PythonExecutors : ExecutorProvider {
             wordSet(category, "assertions", "assertIn", "assertNotIn", wholeWords = false),
             regexExecutor(category, "quotes", "\"([^\"]+)\"", "'$1'"),
             regexExecutor(category, "quotes", "'([^']+)'", "\"$1\""),
-            )
+        ).onEach { ex -> ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC }
+
     }
 }

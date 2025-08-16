@@ -10,16 +10,31 @@ class CustomDefinitionsTest : BaseTest() {
 
     override fun getCustomDefinitions(): VimList {
         // Pattern set 1: Case insensitive with word boundaries
-        val normalizedCaseWordSet = createNormalizedCaseWordSet(listOf(VimString("one"), VimString("two"), VimString("three")))
-//        val normalizedCaseWordSet = VimList(mutableListOf(VimString("one,two,three")))
+//        val normalizedCaseWordSet = createNormalizedCaseWordSet(listOf(VimString("one"), VimString("two"), VimString("three")))
+        val normalizedCaseWordSet = VimList(
+            mutableListOf(
+                VimString("normalizedCaseWords"),
+                VimList(mutableListOf(VimString("one"), VimString("two"), VimString("three")))
+            )
+        )
 
         // Pattern set 2: Case sensitive with word boundaries
-        val wordSet = createWordSet(listOf(VimString("un"), VimString("deux"), VimString("trois")))
-//        val wordSet = VimList(mutableListOf(VimString("un,deux,trois")))
+//        val wordSet = createWordSet(listOf(VimString("un"), VimString("deux"), VimString("trois")))
+        val wordSet = VimList(
+            mutableListOf(
+                VimString("words"),
+                VimList(mutableListOf(VimString("un"), VimString("deux"), VimString("trois")))
+            )
+        )
 
         // Pattern set 3: Case insensitive without word boundaries
-        val normalizedCasePatterns = createNormalizedCasePattern(listOf(VimString("alpha"), VimString("beta"), VimString("gamma")))
-//        val normalizedCasePatterns = VimList(mutableListOf(VimString("alpha,beta,gamma")))
+//        val normalizedCasePatterns = createNormalizedCasePattern(listOf(VimString("alpha"), VimString("beta"), VimString("gamma")))
+        val normalizedCasePatterns = VimList(
+            mutableListOf(
+                VimString("normalizedCasePattern"),
+                VimList(mutableListOf(VimString("alpha"), VimString("beta"), VimString("gamma")))
+            )
+        )
 
         return VimList(mutableListOf(normalizedCaseWordSet, wordSet, normalizedCasePatterns))
     }

@@ -11,13 +11,10 @@ IdeaVim Dial enhances the standard increment/decrement functionality found in Vi
 The plugin operates by analyzing text near the cursor position and applying contextually appropriate transformations. It supports both forward and reverse cycling through predefined sets of values, making it possible to quickly alternate between related concepts without manual text editing.
 
 ## Features
-
-### Vim-like Cursor Behavior
-
-- **Distance-based matching**: Transforms the pattern closest to your cursor position, just like Vim's `Ctrl+A`/`Ctrl+X`
-- **Works within words**: Cursor can be anywhere within the target word (beginning, middle, or end)
-- **Line-wide search**: Finds matches anywhere on the current line, even if the cursor is at the beginning and the match is at the end
-- **Smart positioning**: After transformation, the cursor maintains its relative position within the transformed text
+- **Vim-like Behavior**: Increment or decrement numbers just like Vim's `Ctrl+A`/`Ctrl+X`
+- **Search from cursor**: Transforms the first matching word found from the cursor position forward within the current line
+- **Works within words**: Cursor can be also within the target word
+- **Customizable**: Define your own sets of transformations and enable them in your `.ideavimrc`
 
 ### Built-in Text Transformations
 
@@ -42,15 +39,16 @@ The plugin operates by analyzing text near the cursor position and applying cont
 
 ### Requirements
 
-- IntelliJ IDEA 2024.1+
-- IdeaVim plugin 2.16.0+
+- IntelliJ IDEA 2025.1+
+- IdeaVim plugin 2.27.0+
 - Java 17+
 
 ### Installation
 
 1. Install the plugin from the IntelliJ IDEA Plugin Marketplace
 2. Ensure you have the IdeaVim plugin installed and enabled
-3. Restart IntelliJ IDEA
+3. Activate the plugin in your `.ideavimrc`
+4. Restart IntelliJ IDEA
 
 ### Configuration
 
@@ -67,13 +65,12 @@ let g:dial_include = "basic,numbers,dates"
 let g:dial_include = "basic,numbers,dates,java,python:async,markdown:task_item"
 
 " Custom transformations
-let g:dial_custom = [
-    \ dialwords(['debug', 'info', 'warn', 'error']),
-    \ dialNormalizedCaseWords(['GET', 'POST', 'PUT', 'DELETE']),
-    \ ['width:\s*(\d+)px', 'width: \1em'],
-    \ ['height:\s*(\d+)px', 'height: \1em']
-\ ]
-
+let g:dial_custom_definitions = [
+    ['normalizedCaseWords', ['one', 'two', 'three']],
+    ['words', ['un', 'deux', 'trois']],
+    ['normalizedCasePattern', ['alpha', 'beta', 'gamma']],
+    ['pattern', ['start', 'middle', 'end']]
+]
 ```
 
 ### Recommended key mappings
@@ -101,22 +98,10 @@ nmap <C-x> <Plug>(DialDecrement)
 - `markdown`: Markdown formatting
 - `rust`: Rust-specific patterns
 
-### Custom Patterns
-
-Define your own transformation patterns using VimScript functions:
-
-```vimscript
-" Simple word cycling with case preservation
-let g:dial_custom = [
-    \ dialNormalizedCaseWords(['debug', 'info', 'warn', 'error']),
-    \ dialWords(['small', 'medium', 'large', 'extra-large']),
-    \ dialNormalizedCase(['get', 'post', 'put', 'delete'])
-\ ]
-```
 
 <!-- Plugin description end -->
 
-## Supported Transformations
+## Built-in Transformations
 
 ### Basic Transformations
 
@@ -259,6 +244,54 @@ let g:dial_custom = [
 | **Match Arms**           | `Some(_)` ↔ `None`                                 |
 | **Error Propagation**    | `?` ↔ `.unwrap()`                                  |
 
+## Custom Transformations
+Add custom definitions to your file using the following format: `.ideavimrc`
+``` vim
+let g:dial_custom_definitions = [
+    ['normalizedCaseWords', ['one', 'two', 'three']],
+    ['words', ['un', 'deux', 'trois']],
+    ['normalizedCasePattern', ['alpha', 'beta', 'gamma']],
+    ['pattern', ['start', 'middle', 'end']]
+]
+```
+### Function Types
+#### `normalizedCaseWords`
+- **Case insensitive** matching
+- **Word boundaries** required (won't match partial words)
+- Example: `One` → → `Three` → `One` `Two`
+
+#### `words`
+- **Case sensitive** matching
+- **Word boundaries** required (won't match partial words)
+- Example: `un` → `deux` → `trois` → `un`
+
+### `normalizedCasePattern`
+- **Case insensitive** matching
+- **No word boundaries** (matches anywhere in text)
+- Example: `Alpha123` → `Beta123` → `Gamma123` → `Alpha123`
+
+### `pattern`
+- **Case sensitive** matching
+- **No word boundaries** (matches anywhere in text)
+- Example: `start_var` → `middle_var` → `end_var` → `start_var`
+
+### Complete Example
+``` vimscript
+" Define custom word cycling sets
+let g:dial_custom_definitions = [
+    " HTTP status categories (case insensitive, whole words)
+    ['normalizedCaseWords', ['success', 'redirect', 'client_error', 'server_error']],
+    
+    " Git commands (case sensitive, whole words)
+    ['words', ['add', 'commit', 'push', 'pull', 'merge', 'rebase']],
+    
+    " CSS units (case insensitive, partial matches)
+    ['normalizedCasePattern', ['px', 'em', 'rem', '%', 'vh', 'vw']],
+    
+    " Priority levels (case sensitive, partial matches)  
+    ['pattern', ['low', 'medium', 'high', 'critical']]
+]
+```
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.

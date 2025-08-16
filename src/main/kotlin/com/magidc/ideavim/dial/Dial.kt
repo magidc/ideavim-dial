@@ -11,10 +11,16 @@ import com.maddyhome.idea.vim.vimscript.model.datatypes.VimString
 import com.magidc.ideavim.dial.executor.Executor
 import org.jetbrains.annotations.NonNls
 
+
 // Extension for switching between common text executor (e.g. true/false, &&/||, etc.)
 // Also provides VimScript functions for custom pattern definitions
 class Dial : VimExtension {
     companion object {
+        const val WORDSET_FUNCTION = "words"
+        const val NORMALIZED_CASE_WORDSET_FUNCTION = "normalizedCaseWords"
+        const val PATTERN_FUNCTION = "pattern"
+        const val NORMALIZED_CASE_PATTERN_FUNCTION = "normalizedCasePattern"
+
         @NonNls
         const val DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME = "dial_include"
 
@@ -53,7 +59,7 @@ class Dial : VimExtension {
     private fun registerWordSetFunction() {
         VimExtensionFacade.exportScriptFunction(
             scope = null,
-            name = "dialWords",
+            name = WORDSET_FUNCTION,
             args = listOf("words"),
             defaultArgs = emptyList(),
             hasOptionalArguments = false,
@@ -71,7 +77,7 @@ class Dial : VimExtension {
     private fun registerNormalizedCaseWordSetFunction() {
         VimExtensionFacade.exportScriptFunction(
             scope = null,
-            name = "dialNormalizedCaseWords",
+            name = NORMALIZED_CASE_WORDSET_FUNCTION,
             args = listOf("words"),
             defaultArgs = emptyList(),
             hasOptionalArguments = false,
@@ -89,7 +95,7 @@ class Dial : VimExtension {
     private fun registerPatternFunction() {
         VimExtensionFacade.exportScriptFunction(
             scope = null,
-            name = "dialPattern",
+            name = PATTERN_FUNCTION,
             args = listOf("words"),
             defaultArgs = emptyList(),
             hasOptionalArguments = false,
@@ -107,7 +113,7 @@ class Dial : VimExtension {
     private fun registerNormalizedCasePatternFunction() {
         VimExtensionFacade.exportScriptFunction(
             scope = null,
-            name = "dialNormalizedCasePattern",
+            name = NORMALIZED_CASE_PATTERN_FUNCTION,
             args = listOf("words"),
             defaultArgs = emptyList(),
             hasOptionalArguments = false,
@@ -136,14 +142,14 @@ private fun interface PatternFormat {
     fun format(word: String): String
 }
 
-private fun buildPattern(words: List<VimDataType>, formatPattern: PatternFormat): VimList {
+private fun buildPattern(words: List<VimDataType>, patternFormat: PatternFormat): VimList {
     val list = ArrayList<VimDataType>().apply {
         words.forEachIndexed { index, word ->
             val nextIndex = (index + 1) % words.size
             add(
                 VimList(
                     mutableListOf(
-                        VimString(formatPattern.format(word.toString())),
+                        VimString(patternFormat.format(word.toString())),
                         VimString(words[nextIndex].toString()),
                     ),
                 ),

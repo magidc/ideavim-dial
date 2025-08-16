@@ -4,8 +4,10 @@ import com.intellij.openapi.application.ApplicationInfo
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimList
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimString
 import com.magidc.ideavim.dial.executor.Executor
+import com.magidc.ideavim.dial.executor.ExecutorPriority
 import com.magidc.ideavim.dial.executor.impl.*
-import com.magidc.ideavim.dial.executor.regexExecutor
+import com.magidc.ideavim.dial.executor.normalizedCaseWordSet
+import com.magidc.ideavim.dial.executor.wordSet
 import org.reflections.Reflections
 
 
@@ -77,18 +79,23 @@ class ExecutorLoader {
     }
 
     fun getCustomExecutors(customDefinitions: VimList): List<Executor> {
-        //TODO: Explore ways of defining custom executors
         return customDefinitions.values
-            .flatMap { v -> (v as VimList).values }
-            .mapNotNull { entry ->
-                val pair = entry as? VimList
-                val key = (pair?.get(0) as? VimString)?.toString()
-                val value = (pair?.get(1) as? VimString)?.toString()
-                if (key == null || value == null)
-                    null
-                else
-                    regexExecutor(CUSTOM, CUSTOM, key, value, true)
+            .mapNotNull { rule ->
+                val pair = rule as? VimList
+                val functionName = (pair?.get(0) as? VimString)?.toString()
+                val wordList = (pair?.get(1) as? VimList)?.values?.map { it.toVimString().value }?.toList()?.toTypedArray()
+                if (functionName == null || wordList == null || wordList.isEmpty())
+                    return@mapNotNull null
+                when (functionName) {
+                    Dial.WORDSET_FUNCTION -> return@mapNotNull wordSet(CUSTOM, CUSTOM, words = wordList, wholeWords = true)
+                    Dial.NORMALIZED_CASE_WORDSET_FUNCTION -> return@mapNotNull normalizedCaseWordSet(CUSTOM, CUSTOM, words = wordList, wholeWords = true)
+                    Dial.PATTERN_FUNCTION -> return@mapNotNull wordSet(CUSTOM, CUSTOM, words = wordList, wholeWords = false)
+                    Dial.NORMALIZED_CASE_PATTERN_FUNCTION -> return@mapNotNull normalizedCaseWordSet(CUSTOM, CUSTOM, words = wordList, wholeWords = false)
+                }
+                return@mapNotNull null
             }
+            // Custom executors have the highest priority
+            .onEach { ex -> ex.priority = ExecutorPriority.CUSTOM_EXECUTOR }
             .toList()
     }
 

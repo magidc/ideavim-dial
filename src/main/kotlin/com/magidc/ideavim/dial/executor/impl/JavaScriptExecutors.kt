@@ -1,6 +1,7 @@
 package com.magidc.ideavim.dial.executor.impl
 
 import com.magidc.ideavim.dial.executor.Executor
+import com.magidc.ideavim.dial.executor.ExecutorPriority
 import com.magidc.ideavim.dial.model.RegexUtils.capture
 import com.magidc.ideavim.dial.model.RegexUtils.group
 import com.magidc.ideavim.dial.model.RegexUtils.optionalCapture
@@ -38,6 +39,6 @@ object JavaScriptExecutors : ExecutorProvider {
             regexExecutor(category, "es6_declarations", word("var") + "\\s+", "let "),
             regexExecutor(category, "es6_declarations", word("let") + "\\s+", "const "),
             regexExecutor(category, "es6_declarations", word("const") + "\\s+", "let ")
-        )
+        ).onEach { ex -> ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC }
     }
 }

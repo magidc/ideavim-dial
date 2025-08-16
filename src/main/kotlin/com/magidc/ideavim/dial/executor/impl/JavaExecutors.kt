@@ -1,6 +1,7 @@
 package com.magidc.ideavim.dial.executor.impl
 
 import com.magidc.ideavim.dial.executor.Executor
+import com.magidc.ideavim.dial.executor.ExecutorPriority
 import com.magidc.ideavim.dial.executor.wordSet
 
 
@@ -25,7 +26,7 @@ object JavaExecutors : ExecutorProvider {
             wordSet(category, "streams", ".map", ".flatMap", wholeWords = false),
             wordSet(category, "streams", ".filter", ".peek", wholeWords = false),
             wordSet(category, "streams", ".findAny", ".findFirst", wholeWords = false),
-            wordSet(category, "streams", ".anyMatch", ".allMatch",".noneMatch", wholeWords = false),
-        )
+            wordSet(category, "streams", ".anyMatch", ".allMatch", ".noneMatch", wholeWords = false),
+        ).onEach { ex -> ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC }
     }
 }

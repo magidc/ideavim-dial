@@ -1,10 +1,11 @@
 package com.magidc.ideavim.dial.executor.impl
 
 import com.magidc.ideavim.dial.executor.Executor
-import com.magidc.ideavim.dial.model.RegexUtils.atLineStart
-import com.magidc.ideavim.dial.model.RegexUtils.capture
+import com.magidc.ideavim.dial.executor.ExecutorPriority
 import com.magidc.ideavim.dial.executor.regexExecutor
 import com.magidc.ideavim.dial.executor.wordSet
+import com.magidc.ideavim.dial.model.RegexUtils.atLineStart
+import com.magidc.ideavim.dial.model.RegexUtils.capture
 
 
 object RustExecutors : ExecutorProvider {
@@ -33,6 +34,6 @@ object RustExecutors : ExecutorProvider {
                 atLineStart(capture("[\\w-]+") + "\\s*=\\s*\\{\\s*version\\s*=\\s*" + capture("[\"'].+[\"']") + "\\s*\\}"),
                 "$1 = $2"
             )
-        )
+        ).onEach { ex -> ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC }
     }
 }
