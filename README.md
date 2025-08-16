@@ -44,11 +44,26 @@ The plugin operates by analyzing text near the cursor position and applying cont
 - Java 17+
 
 ### Installation
-
-1. Install the plugin from the IntelliJ IDEA Plugin Marketplace
-2. Ensure you have the IdeaVim plugin installed and enabled
+#### Plugin Marketplace Installation
+1. Ensure you have the IdeaVim plugin installed and enabled
+2. Install the plugin from the IntelliJ IDEA Plugin Marketplace
 3. Activate the plugin in your `.ideavimrc`
 4. Restart IntelliJ IDEA
+
+#### Manual Installation
+1. Download the latest `.zip` file release from the [releases page](https://github.com/magidc/ideavim-dial/releases)
+2. Open IDE Settings:
+    - Go to **File** → **Settings** (Windows/Linux) or **IntelliJ IDEA** → **Preferences** (macOS)
+    - Or press `Ctrl+Alt+S` (Windows/Linux) or `Cmd+,` (macOS)
+3. Navigate to Plugins:
+    - Select **Plugins** from the left sidebar
+4. Install from disk:
+    - Click the **⚙️ gear icon** → **Install Plugin from Disk...**
+    - Browse to your plugin's `.zip` file
+    - Select the file and click **OK**
+5. Activate the plugin in your `.ideavimrc`
+6. Restart IntelliJ IDEA
+
 
 ### Configuration
 
