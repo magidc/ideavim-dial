@@ -24,7 +24,6 @@ The plugin operates by analyzing text near the cursor position and applying cont
 - **Comparison Operators**: Toggle `==`/`!=`, `is`/`is not`, `>`/`<`, `>=`/`<=`
 - **Bitwise Operators**: Switch between `&`/`|`
 - **Directional Values**: Cycle through `up`/`down`/`left`/`right`
-- **Quote Styles**: Rotate between `"string"`, `'string'`, `↔` &#96;string&#96;
 - **Date/Time**: Smart date and time manipulation
 - **Language-specific**: Support specific transformations
   for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations)
@@ -132,7 +131,6 @@ nmap <C-x> <Plug>(DialDecrement)
 |                       | `>` ↔ `<`                           |
 |                       | `>=` ↔ `<=`                         |
 | **Directional Words** | `up` ↔ `down` ↔ `left` ↔ `right`    |
-| **String Quotes**     | `"text"` ↔ `'text'` ↔ \`text\`      |
 | **HTTP Methods**      | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
 | **Log Levels**        | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
 

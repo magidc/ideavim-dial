@@ -30,16 +30,8 @@ object BasicExecutors : ExecutorProvider {
       normalizedCaseWordSet(category, "and_or", "and", "or"),
       regexExecutor(category, "equality", withOptionalSpaces("=="), "!=", matchWithin = true),
       regexExecutor(category, "equality", withOptionalSpaces("!="), "==", matchWithin = true),
-      regexExecutor(
-        category,
-        "is_is_not",
-        withRequiredSpaces(notFollowedBy("is", "\\s+not")),
-        "is not",
-      ),
+      regexExecutor(category, "is_is_not", withRequiredSpaces(notFollowedBy("is", "\\s+not")), "is not"),
       regexExecutor(category, "is_is_not", withRequiredSpaces("is\\s+not"), "is"),
-      regexExecutor(category, "quotes", "\"([^\"]+)\"", "'$1'"),
-      regexExecutor(category, "quotes", "'([^']+)'", "`$1`"),
-      regexExecutor(category, "quotes", "`([^`]+)`", "\"$1\""),
       normalizedCaseWordSet(category, "http_methods", "get", "post", "put", "delete", "patch"),
       normalizedCaseWordSet(category, "log_levels", "debug", "info", "warning", "error", "critical"),
     )

@@ -115,51 +115,26 @@ class BasicExecutorsTest : BaseTest() {
     assertThat(execute("if x  " + CARET + "is  not  y")).isEqualTo("if x  " + CARET + "is  y")
   }
 
-  fun testQuotes() {
-    assertThat(execute("value = " + CARET + "\"hello\"")).isEqualTo("value = " + CARET + "'hello'")
-    assertThat(execute("value = " + CARET + "'hello'")).isEqualTo("value = " + CARET + "`hello`")
-    assertThat(execute("value = " + CARET + "`hello`")).isEqualTo("value = " + CARET + "\"hello\"")
-
-    // Test with multiple quotes on same line
-    assertThat(execute("value = \"first\" + " + CARET + "\"second\""))
-      .isEqualTo("value = \"first\" + " + CARET + "'second'")
-    assertThat(execute("value = " + CARET + "'first' + 'second'"))
-      .isEqualTo("value = " + CARET + "`first` + 'second'")
-  }
-
   fun testHTTPMethods() {
-    assertThat(execute("response = requests." + CARET + "get('url')"))
-      .isEqualTo("response = requests." + CARET + "post('url')")
-    assertThat(execute("response = requests." + CARET + "post('url')"))
-      .isEqualTo("response = requests." + CARET + "put('url')")
-    assertThat(execute("response = requests." + CARET + "GET('url')"))
-      .isEqualTo("response = requests." + CARET + "POST('url')")
-    assertThat(execute("response = requests." + CARET + "PUT('url')"))
-      .isEqualTo("response = requests." + CARET + "DELETE('url')")
+    assertThat(execute("response = requests." + CARET + "get('url')")).isEqualTo("response = requests." + CARET + "post('url')")
+    assertThat(execute("response = requests." + CARET + "post('url')")).isEqualTo("response = requests." + CARET + "put('url')")
+    assertThat(execute("response = requests." + CARET + "GET('url')")).isEqualTo("response = requests." + CARET + "POST('url')")
+    assertThat(execute("response = requests." + CARET + "PUT('url')")).isEqualTo("response = requests." + CARET + "DELETE('url')")
 
     // Test with different caret positions
-    assertThat(execute("response = requests.g" + CARET + "et('url')"))
-      .isEqualTo("response = requests." + CARET + "post('url')")
-    assertThat(execute("response = requests.p" + CARET + "ost('url')"))
-      .isEqualTo("response = requests." + CARET + "put('url')")
+    assertThat(execute("response = requests.g" + CARET + "et('url')")).isEqualTo("response = requests." + CARET + "post('url')")
+    assertThat(execute("response = requests.p" + CARET + "ost('url')")).isEqualTo("response = requests." + CARET + "put('url')")
   }
 
   fun testLogLevels() {
-    assertThat(execute("logger." + CARET + "debug('message')"))
-      .isEqualTo("logger." + CARET + "info('message')")
-    assertThat(execute("logger." + CARET + "info('message')"))
-      .isEqualTo("logger." + CARET + "warning('message')")
-    assertThat(execute("logger." + CARET + "WARNING('message')"))
-      .isEqualTo("logger." + CARET + "ERROR('message')")
-    assertThat(execute("logger." + CARET + "error('message')"))
-      .isEqualTo("logger." + CARET + "critical('message')")
-    assertThat(execute("logger." + CARET + "CRITICAL('message')"))
-      .isEqualTo("logger." + CARET + "DEBUG('message')")
+    assertThat(execute("logger." + CARET + "debug('message')")).isEqualTo("logger." + CARET + "info('message')")
+    assertThat(execute("logger." + CARET + "info('message')")).isEqualTo("logger." + CARET + "warning('message')")
+    assertThat(execute("logger." + CARET + "WARNING('message')")).isEqualTo("logger." + CARET + "ERROR('message')")
+    assertThat(execute("logger." + CARET + "error('message')")).isEqualTo("logger." + CARET + "critical('message')")
+    assertThat(execute("logger." + CARET + "CRITICAL('message')")).isEqualTo("logger." + CARET + "DEBUG('message')")
 
     // Test with different caret positions
-    assertThat(execute("logger.d" + CARET + "ebug('message')"))
-      .isEqualTo("logger." + CARET + "info('message')")
-    assertThat(execute("logger." + CARET + "info('message')"))
-      .isEqualTo("logger." + CARET + "warning('message')")
+    assertThat(execute("logger.d" + CARET + "ebug('message')")).isEqualTo("logger." + CARET + "info('message')")
+    assertThat(execute("logger." + CARET + "info('message')")).isEqualTo("logger." + CARET + "warning('message')")
   }
 }

@@ -45,19 +45,6 @@ class CustomDefinitionsTest : BaseTest() {
     return VimList(mutableListOf(normalizedCaseWordSet, wordSet, normalizedCasePatterns))
   }
 
-  /** Ensure that custom definitions take precedence over built-in definitions. See #4. */
-  fun testCustomDefinitionsTakePrecedence() {
-    // When on true/false, dial between those words as the true/false rule
-    // is defined before the quote rule in the basic executor
-    assertThat(execute("\"" + CARET + "true\"")).isEqualTo("\"" + CARET + "false\"")
-    // When on the quote, the quote rule is applied
-    assertThat(execute("" + CARET + "\"true\"")).isEqualTo("" + CARET + "'true'")
-    assertThat(execute("" + CARET + "\"one\"")).isEqualTo("" + CARET + "'one'")
-    // When on one/two, dial between those words as the custom one/two rule
-    // takes precedence over the quote rule from the built-in basic executor
-    assertThat(execute("\"" + CARET + "one\"")).isEqualTo("\"" + CARET + "two\"")
-  }
-
   fun testWordBoundaryPatterns() {
     // Test case sensitivity (should not dial due to case mismatch)
     assertThat(execute("" + CARET + "Un")).isEqualTo("" + CARET + "Un")
