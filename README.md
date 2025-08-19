@@ -103,7 +103,7 @@ nmap <C-x> <Plug>(DialDecrement)
 
 #### If not specified, basic, number, and date groups are enabled by default. Also, specific language groups are enabled by default based on the JetBrains application in use. For example, IntelliJ IDEA will enable Java specific transformations, Pycharm will enable Python transformations, etc.
 
-- `basic`: Boolean values, operators, directions, quotes
+- `basic`: Boolean values, operators, directions
 - `numbers`: Integer, decimal, and scientific notation
 - `dates`: Date and time patterns
 - `java`: Java-specific patterns (visibility, basic types, collections methods, streams, etc.)
@@ -119,20 +119,18 @@ nmap <C-x> <Plug>(DialDecrement)
 
 ### Basic Transformations
 
-| Category              | Transformation                      |
-|-----------------------|-------------------------------------|
-| **Boolean Values**    | `true` ↔ `false`                    |
-|                       | `True` ↔ `False`                    |
-| **Logical Operators** | `and` ↔ `or`                        |
-|                       | `AND` ↔ `OR`                        |
-|                       | `&&` ↔ `\|\|`                       |
-| **Comparison**        | `==` ↔ `!=`                         |
-|                       | `is` ↔ `is not`                     |
-|                       | `>` ↔ `<`                           |
-|                       | `>=` ↔ `<=`                         |
-| **Directional Words** | `up` ↔ `down` ↔ `left` ↔ `right`    |
-| **HTTP Methods**      | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
-| **Log Levels**        | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
+| Category                 | Transformation                      |
+|--------------------------|-------------------------------------|
+| **Boolean Values**       | `true` ↔ `false`                    |
+| **Logical Operators**    | `and` ↔ `or`                        |
+|                          | `&&` ↔ `\|\|`                       |
+| **Comparison Operators** | `==` ↔ `!=`                         |
+|                          | `is` ↔ `is not`                     |
+|                          | `in` ↔ `not in`                     |
+|                          | `>` ↔ `<`                           |
+| **Directional Words**    | `up` ↔ `down` ↔ `left` ↔ `right`    |
+| **HTTP Methods**         | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
+| **Log Levels**           | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
 
 ### Numeric Transformations
 
@@ -194,15 +192,11 @@ nmap <C-x> <Plug>(DialDecrement)
 |                           | `.filter` ↔ `.peek`                             |
 |                           | `.findAny` ↔ `.findFirst`                       |
 |                           | `.anyMatch` ↔ `.allMatch` ↔ `.noneMatch`        |
-| **Comparison**            | `==` ↔ `!=`                                     |
 
 ### Python Transformations
 
 | Category                  | Transformation                                      |
 |---------------------------|-----------------------------------------------------|
-| **Comparison Operators**  | `==` ↔ `!=`                                         |
-|                           | `is` ↔ `is not`                                     |
-|                           | `in` ↔ `not in`                                     |
 | **Data Types**            | `int` ↔ `float` ↔ `str` ↔ `bool`                    |
 | **Flow Control**          | `if` ↔ `elif`                                       |
 | **Loop Types**            | `for` ↔ `while`                                     |
