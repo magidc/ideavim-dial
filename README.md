@@ -15,13 +15,14 @@ The plugin operates by analyzing text near the cursor position and applying cont
 - **Search from cursor**: Transforms the first matching word found from the cursor position forward within the current line
 - **Works within words**: Cursor can be also within the target word
 - **Customizable**: Define your own sets of transformations and enable them in your `.ideavimrc`
+- **Case Preservation**: Maintains the original case when transforming text
 
 ### Built-in Text Transformations
 
 - **Numeric Values**: Increment/decrement integers, decimals, and scientific notation
-- **Boolean Values**: Toggle between `true`/`false`, `True`/`False`
-- **Logical Operators**: Switch between `&&`/`||`, `and`/`or`, `AND`/`OR`
-- **Comparison Operators**: Toggle `==`/`!=`, `is`/`is not`, `>`/`<`, `>=`/`<=`
+- **Boolean Values**: Toggle between `true`/`false`
+- **Logical Operators**: Switch between `&&`/`||`, `and`/`or`
+- **Comparison Operators**: Toggle `==`/`!=`, `is`/`is not`, `in`/`not in`,`>`/`<`
 - **Bitwise Operators**: Switch between `&`/`|`
 - **Directional Values**: Cycle through `up`/`down`/`left`/`right`
 - **Date/Time**: Smart date and time manipulation
