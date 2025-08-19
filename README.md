@@ -27,8 +27,7 @@ The plugin operates by analyzing text near the cursor position and applying cont
 - **Directional Values**: Cycle through `up`/`down`/`left`/`right`
 - **Date/Time**: Smart date and time manipulation
 - **Language-specific**: Support specific transformations
-  for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations)
-  or [Markdown](#markdown-transformations)
+  for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations) or [Markdown](#markdown-transformations)
 
 ### Smart Context Awareness
 
