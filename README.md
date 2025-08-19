@@ -119,18 +119,19 @@ nmap <C-x> <Plug>(DialDecrement)
 
 ### Basic Transformations
 
-| Category                 | Transformation                      |
-|--------------------------|-------------------------------------|
-| **Boolean Values**       | `true` ↔ `false`                    |
-| **Logical Operators**    | `and` ↔ `or`                        |
-|                          | `&&` ↔ `\|\|`                       |
-| **Comparison Operators** | `==` ↔ `!=`                         |
-|                          | `is` ↔ `is not`                     |
-|                          | `in` ↔ `not in`                     |
-|                          | `>` ↔ `<`                           |
-| **Directional Words**    | `up` ↔ `down` ↔ `left` ↔ `right`    |
-| **HTTP Methods**         | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
-| **Log Levels**           | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
+| Category              | Transformation                      |
+|-----------------------|-------------------------------------|
+| **Boolean Values**    | `true` ↔ `false`                    |
+| **Logical Operators** | `and` ↔ `or`                        |
+|                       | `&&` ↔ `\|\|`                       |
+| **Bitwise Operators** | `&` ↔ `\|`                          |
+| **Comparison**        | `==` ↔ `!=`                         |
+|                       | `is` ↔ `is not`                     |
+|                       | `in` ↔ `not in`                     |
+|                       | `>` ↔ `<`                           |
+| **Directional Words** | `up` ↔ `down` ↔ `left` ↔ `right`    |
+| **HTTP Methods**      | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
+| **Log Levels**        | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
 
 ### Numeric Transformations
 
@@ -233,7 +234,6 @@ nmap <C-x> <Plug>(DialDecrement)
 
 | Category                 | Transformation                                     |
 |--------------------------|----------------------------------------------------|
-| **Boolean Values**       | `true` ↔ `false`                                   |
 | **Mutability**           | `let mut` ↔ `let`                                  |
 | **Visibility**           | `pub` ↔ `pub(crate)` ↔ `pub(super)` ↔ `pub(self)`  |
 | **Result Handling**      | `.unwrap()` ↔ `.expect()` ↔ `.unwrap_or_default()` |

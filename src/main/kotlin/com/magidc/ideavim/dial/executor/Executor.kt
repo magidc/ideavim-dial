@@ -3,10 +3,10 @@ package com.magidc.ideavim.dial.executor
 import com.magidc.ideavim.dial.model.Match
 import com.magidc.ideavim.dial.model.RegexUtils
 
-enum class ExecutorPriority(val value: Int) {
-    BASIC(1),
-    LANGUAGE_SPECIFIC(2),
-    CUSTOM_EXECUTOR(3),
+enum class ExecutorPriority() {
+    BASIC,
+    LANGUAGE_SPECIFIC,
+    CUSTOM_EXECUTOR,
 }
 
 open class Executor(
@@ -141,11 +141,4 @@ fun normalizedCaseWordSet(
     group: String,
     vararg words: String,
     wholeWords: Boolean = true,
-): Executor =
-    buildWordSetExecutors(
-        category,
-        group,
-        words = words,
-        wholeWords = wholeWords,
-        preserveCase = true,
-    )
+): Executor = buildWordSetExecutors(category, group, words = words, wholeWords = wholeWords, preserveCase = true)

@@ -8,19 +8,19 @@ import com.magidc.ideavim.dial.executor.Executor
 import com.magidc.ideavim.dial.model.LineRange
 import com.magidc.ideavim.dial.model.Match
 import java.util.*
-import java.util.stream.Stream
 
 class DialCommandHandler(
     private val reverse: Boolean,
     private val executors: List<Executor>,
     private val editorAdapter: EditorAdapter = EditorAdapter(),
 ) : CommandAliasHandler {
-    private class LRUCache<K, V>(private val maxSize: Int) : LinkedHashMap<K, V>(16, 0.75f, true) {
-        override fun removeEldestEntry(eldest: MutableMap.MutableEntry<K, V>?): Boolean = size > maxSize
+    companion object {
+        private val executorCache = LRUCache<String, Optional<Executor>>(500)
+
+        private class LRUCache<K, V>(private val maxSize: Int) : LinkedHashMap<K, V>(50, 0.75f, true) {
+            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<K, V>?): Boolean = size > maxSize
+        }
     }
-
-    private val executorCache = LRUCache<String, Optional<Executor>>(1000)
-
 
     override fun execute(command: String, range: Range, editor: VimEditor, context: ExecutionContext) {
         val lineRange = editorAdapter.getLineRange(editor)
@@ -40,16 +40,11 @@ class DialCommandHandler(
         }
     }
 
-    private fun findMatch(executorStream: Stream<Executor>, lineRange: LineRange, text: String): Match? {
+    private fun findMatch(executorStream: Sequence<Executor>, lineRange: LineRange, text: String): Match? {
         return executorStream
-            .map { it.findMatch(text, lineRange.caretOffset, reverse) }
-            .filter { it != null }
-            .max(
-                Comparator.comparingInt<Match> { -1 * (it.start) }
-                    .thenComparing { it.executor.priority }
-                    .thenComparing { it.replacement.length }
-            )
-            .orElse(null)
+            .mapNotNull { it.findMatch(text, lineRange.caretOffset, reverse) }
+            .maxWithOrNull(compareByDescending<Match> { it.start }.thenBy { it.executor.priority }.thenBy { it.replacement.length })
+
     }
 
     private fun findBestMatch(cachedExecutor: Optional<Executor>?, text: String, lineRange: LineRange): Match? =
@@ -59,14 +54,15 @@ class DialCommandHandler(
                 val executor = cachedExecutor.get()
                 // First checking the cached executor
                 var match = executor.findMatch(text, lineRange.caretOffset, reverse)
-                if (match == null)
+                if (match == null) {
                     // If the cached executor didn't match, we can try to find a match in the same group
-                    match = findMatch(executors.parallelStream().filter { it != executor && it.group == executor.group }, lineRange, text)
-                if (match == null)
+                    match = findMatch(executors.asSequence().filter { it != executor && it.group == executor.group }, lineRange, text)
+                    if (match == null)
                     // If the cached executor didn't match and the group didn't match, trying with the rest of the executors
-                    match = findMatch(executors.parallelStream().filter { it.group != executor.group }, lineRange, text)
+                        match = findMatch(executors.asSequence().filter { it.group != executor.group }, lineRange, text)
+                }
                 match
             }
         } else
-            findMatch(executors.parallelStream(), lineRange, text)
+            findMatch(executors.asSequence(), lineRange, text)
 }

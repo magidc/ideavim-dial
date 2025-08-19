@@ -9,7 +9,6 @@ object JavaExecutors : ExecutorProvider {
 
   override fun buildExecutors(): List<Executor> =
     listOf(
-        wordSet(category, "comparison", "==", "!=", wholeWords = false),
         wordSet(category, "assertions", "assertEquals", "assertNotEquals"),
         wordSet(category, "assertions", "assertTrue", "assertFalse"),
         wordSet(category, "assertions", "assertNull", "assertNotNull"),

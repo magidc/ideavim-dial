@@ -128,14 +128,8 @@ private val executorLoader = ExecutorLoader()
 
 // Get executor enabled via dial_definitions in .ideavimrc
 private fun getEnabledExecutors(): List<Executor> {
-  val builtinDefinitions =
-    VimPlugin.getVariableService()
-      .getGlobalVariableValue(Dial.DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME)
-      ?.toString() ?: ""
-  val customDefinitions =
-    VimPlugin.getVariableService()
-      .getGlobalVariableValue(Dial.DIAL_CUSTOM_DEFINITIONS_VARIABLE_NAME) as? VimList
-      ?: VimList(mutableListOf())
+  val builtinDefinitions = VimPlugin.getVariableService().getGlobalVariableValue(Dial.DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME)?.toString() ?: ""
+  val customDefinitions = VimPlugin.getVariableService().getGlobalVariableValue(Dial.DIAL_CUSTOM_DEFINITIONS_VARIABLE_NAME) as? VimList ?: VimList(mutableListOf())
   return executorLoader.getEnabledExecutors(builtinDefinitions, customDefinitions)
 }
 
