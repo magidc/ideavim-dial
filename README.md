@@ -36,12 +36,6 @@ The plugin operates by analyzing text near the cursor position and applying cont
 - **Case Preservation**: Maintains original case when transforming text
 - **Multiple Matches**: Automatically selects the closest match to your cursor
 
-### Requirements
-
-- IntelliJ IDEA 2025.1+
-- IdeaVim plugin 2.27.0+
-- Java 17+
-
 ### Installation
 #### Plugin Marketplace Installation
 1. Ensure you have the IdeaVim plugin installed and enabled
