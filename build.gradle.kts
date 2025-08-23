@@ -2,6 +2,8 @@ import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
+fun properties(key: String) = providers.gradleProperty(key)
+
 plugins {
     id("java")
     kotlin("jvm") version "2.2.0"
@@ -12,14 +14,15 @@ plugins {
 }
 
 changelog {
-    version.set(providers.gradleProperty("pluginVersion"))
+    version.set(properties("pluginVersion"))
     path.set(file("CHANGELOG.md").canonicalPath)
     header.set(provider { "[${version.get()}]" })
     headerParserRegex.set("""(\d+\.\d+\.\d+)""".toRegex())
     itemPrefix.set("-")
     keepUnreleasedSection.set(true)
     unreleasedTerm.set("[Next]")
-    groups.set(listOf(""))
+    groups.empty()
+    repositoryUrl = properties("pluginRepositoryUrl")
 }
 
 repositories {
@@ -36,9 +39,9 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.2.0")
     testImplementation("org.mockito:mockito-inline:5.2.0")
     intellijPlatform {
-        create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
-        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
-        plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
+        create(properties("platformType"), properties("platformVersion"))
+        bundledPlugins(properties("platformBundledPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) })
+        plugins(properties("platformPlugins").map { it.split(',').map(String::trim).filter(String::isNotEmpty) })
         pluginVerifier()
         zipSigner()
         testFramework(TestFrameworkType.Platform)
@@ -47,26 +50,31 @@ dependencies {
 
 intellijPlatform {
     pluginConfiguration {
-        id = providers.gradleProperty("pluginId")
-        name = providers.gradleProperty("pluginName")
-        version = providers.gradleProperty("pluginVersion")
+        id = properties("pluginId")
+        name = properties("pluginName")
+        version = properties("pluginVersion")
         description = providers.fileContents(layout.projectDirectory.file("README.md")).asText.map {
             val start = "<!-- Plugin description -->"
             val end = "<!-- Plugin description end -->"
 
             with(it.lines()) {
-                if (!containsAll(listOf(start, end))) {
+                if (!containsAll(listOf(start, end)))
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
                 subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
             }
         }
         ideaVersion {
-            sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = provider { null }
+            // Let the Gradle plugin set the since-build version. It defaults to the version of the IDE we're building against
+            // specified as two components, `{branch}.{build}` (e.g., "241.15989"). There is no third component specified.
+            // The until-build version defaults to `{branch}.*`, but we want to support _all_ future versions, so we set it
+            // with a null provider (the provider is important).
+            // By letting the Gradle plugin handle this, the Plugin DevKit IntelliJ plugin cannot help us with the "Usage of
+            // IntelliJ API not available in older IDEs" inspection. However, since our since-build is the version we compile
+            // against, we can never get an API that's newer - it would be an unresolved symbol.
+            untilBuild.set(provider { null })
         }
         val changelog = project.changelog
-        changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
+        changeNotes = properties("pluginVersion").map { pluginVersion ->
             with(changelog) {
                 renderItem(
                     (getOrNull(pluginVersion) ?: getUnreleased())
@@ -77,11 +85,13 @@ intellijPlatform {
             }
         }
     }
+
     publishing {
-        token = providers.environmentVariable("PUBLISH_TOKEN")
-        channels = providers.gradleProperty("pluginVersion")
+        token = System.getenv("PUBLISH_TOKEN")
+        channels = properties("pluginVersion")
             .map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
     }
+
     pluginVerification {
         ides {
             recommended()
@@ -125,6 +135,10 @@ kotlin {
 }
 
 tasks {
+    buildSearchableOptions {
+        enabled = false
+    }
+
     signPlugin {
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
         privateKey.set(System.getenv("PRIVATE_KEY"))

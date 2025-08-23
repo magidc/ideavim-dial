@@ -16,6 +16,8 @@ class NumberExecutorsTest : BaseTest() {
       .isEqualTo("version = ${CARET}10.23.3-SNAPSHOT")
     assertThat(execute("10$CARET.23.4.RC1", true)).isEqualTo("${CARET}10.23.3.RC1")
     assertThat(execute("${CARET}10.23.4", true)).isEqualTo("${CARET}10.23.3")
+
+    assertThat(execute("${CARET}10.23.0", true)).isEqualTo("${CARET}10.22.99")
   }
 
   fun testPositiveInteger() {

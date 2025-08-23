@@ -12,11 +12,11 @@ import com.maddyhome.idea.vim.api.VimFoldRegion
 import com.maddyhome.idea.vim.api.VimIndentConfig
 import com.maddyhome.idea.vim.api.VimScrollingModel
 import com.maddyhome.idea.vim.api.VimSelectionModel
-import com.maddyhome.idea.vim.api.VimVirtualFile
 import com.maddyhome.idea.vim.api.VimVisualPosition
+import com.maddyhome.idea.vim.api.VirtualFile
+import com.maddyhome.idea.vim.command.OperatorArguments
 import com.maddyhome.idea.vim.common.LiveRange
 import com.maddyhome.idea.vim.common.TextRange
-import com.maddyhome.idea.vim.common.VimEditorReplaceMask
 import com.maddyhome.idea.vim.state.mode.Mode
 import com.maddyhome.idea.vim.state.mode.SelectionType
 import com.magidc.ideavim.dial.model.LineRange
@@ -37,7 +37,7 @@ class MockExecutionContext : ExecutionContext {
     get() = TODO("Mock")
 }
 
-class MockVimEditor(override var replaceMask: VimEditorReplaceMask? = null) : VimEditor {
+class MockVimEditor : VimEditor {
   override var mode: Mode
     get() = TODO("Mock")
     set(value) {}
@@ -130,7 +130,7 @@ class MockVimEditor(override var replaceMask: VimEditorReplaceMask? = null) : Vi
     pair: Pair<Int, Int>,
     editor: VimEditor,
     shiftType: LineDeleteShift,
-  ): Pair<Pair<Int, Int>, LineDeleteShift>? {
+  ): Pair<Pair<Int, Int>, LineDeleteShift> {
     TODO("Mock")
   }
 
@@ -158,7 +158,7 @@ class MockVimEditor(override var replaceMask: VimEditorReplaceMask? = null) : Vi
     TODO("Mock")
   }
 
-  override fun getVirtualFile(): VimVirtualFile {
+  override fun getVirtualFile(): VirtualFile? {
     TODO("Mock")
   }
 
@@ -218,7 +218,7 @@ class MockVimEditor(override var replaceMask: VimEditorReplaceMask? = null) : Vi
     TODO("Mock")
   }
 
-  override fun exitInsertMode(context: ExecutionContext) {
+  override fun exitInsertMode(context: ExecutionContext, operatorArguments: OperatorArguments) {
     TODO("Mock")
   }
 

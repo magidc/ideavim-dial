@@ -1,10 +1,11 @@
 <idea-plugin>
     <vendor email="ricardo.rodcas@gmail.com" url="https://github.com/magidc">Ricardo Rodriguez</vendor>
 
+    <depends>com.intellij.modules.platform</depends>
+    <depends>IdeaVIM</depends>
+
     <extensions defaultExtensionNs="IdeaVIM">
         <vimExtension implementation="com.magidc.ideavim.dial.Dial"/>
     </extensions>
 
-    <depends>com.intellij.modules.platform</depends>
-    <depends>IdeaVIM</depends>
 </idea-plugin>
