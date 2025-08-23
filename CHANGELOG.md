@@ -1,6 +1,6 @@
 ## 1.0.0
 Very first release.
-### Built-in Text Transformations
+## Built-in Text Transformations
 - **Numeric Values**: Increment/decrement integers, decimals, and scientific notation
 - **Boolean Values**: Toggle between `true`/`false`
 - **Logical Operators**: Switch between `&&`/`||`, `and`/`or`
