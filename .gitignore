@@ -43,3 +43,5 @@ bin/
 .DS_Store
 /.kotlin/
 /.idea/
+/.run/Publish Plugin.run.xml
+/.run/Sign Plugin.run.xml
