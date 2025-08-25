@@ -2,32 +2,28 @@
 
 # IdeaVim Dial
 
-IdeaVim Dial is a JetBrains IDE plugin that extends IdeaVim with advanced text increment and decrement functionality. The plugin provides intelligent pattern matching and transformation capabilities for various text elements including numbers, dates, boolean values, operators, and programming language-specific keywords.
+IdeaVim extension with advanced text increment and decrement functionality. It enhances the standard increment/decrement functionality found in Vim editors by adding support for complex text patterns beyond simple numbers.
 
-## What is IdeaVim Dial?
+Cycle through related values from various text elements, including numbers, dates, boolean values, operators, and programming language-specific keywords.
 
-IdeaVim Dial enhances the standard increment/decrement functionality found in Vim editors by adding support for complex text patterns beyond simple numbers. The plugin can cycle through related values, toggle between opposite states, and intelligently manipulate various text formats commonly found in code.
-
-The plugin operates by analyzing text near the cursor position and applying contextually appropriate transformations. It supports both forward and reverse cycling through predefined sets of values, making it possible to quickly alternate between related concepts without manual text editing.
 
 ## Features
 - **Vim-like Behavior**: Increment or decrement numbers just like Vim's `Ctrl+A`/`Ctrl+X`
 - **Search from cursor**: Transforms the first matching word found from the cursor position forward within the current line
 - **Works within words**: Cursor can be also within the target word
 - **Customizable**: Define your own sets of transformations and enable them in your `.ideavimrc`
-- **Case Preservation**: Maintains the original case when transforming text
 
 ### Built-in Text Transformations
 
 - **Numeric Values**: Increment/decrement integers, decimals, and scientific notation
-- **Boolean Values**: Toggle between `true`/`false`
-- **Logical Operators**: Switch between `&&`/`||`, `and`/`or`
-- **Comparison Operators**: Toggle `==`/`!=`, `is`/`is not`, `in`/`not in`,`>`/`<`
+- **Boolean Values**: Toggle between `true`/`false`, `True`/`False`
+- **Logical Operators**: Switch between `&&`/`||`, `and`/`or`, `AND`/`OR`
+- **Comparison Operators**: Toggle `==`/`!=`, `is`/`is not`, `>`/`<`, `>=`/`<=`
 - **Bitwise Operators**: Switch between `&`/`|`
 - **Directional Values**: Cycle through `up`/`down`/`left`/`right`
+- **Quote Styles**: Rotate between `"string"`, `'string'`, `↔` &#96;string&#96;
 - **Date/Time**: Smart date and time manipulation
-- **Language-specific**: Support specific transformations
-  for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations) or [Markdown](#markdown-transformations)
+- **Language-specific**: Support specific transformations for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations) or [Markdown](#markdown-transformations)
 
 ### Smart Context Awareness
 
@@ -36,27 +32,18 @@ The plugin operates by analyzing text near the cursor position and applying cont
 - **Case Preservation**: Maintains original case when transforming text
 - **Multiple Matches**: Automatically selects the closest match to your cursor
 
+### Requirements
+
+- IntelliJ IDEA 2025.1+
+- IdeaVim plugin 2.27.0+
+- Java 17+
+
 ### Installation
-#### Plugin Marketplace Installation
-1. Ensure you have the IdeaVim plugin installed and enabled
-2. Install the plugin from the IntelliJ IDEA Plugin Marketplace
+
+1. Install the plugin from the IntelliJ IDEA Plugin Marketplace
+2. Ensure you have the IdeaVim plugin installed and enabled
 3. Activate the plugin in your `.ideavimrc`
 4. Restart IntelliJ IDEA
-
-#### Manual Installation
-1. Download the latest `.zip` file release from the [releases page](https://github.com/magidc/ideavim-dial/releases)
-2. Open IDE Settings:
-    - Go to **File** → **Settings** (Windows/Linux) or **IntelliJ IDEA** → **Preferences** (macOS)
-    - Or press `Ctrl+Alt+S` (Windows/Linux) or `Cmd+,` (macOS)
-3. Navigate to Plugins:
-    - Select **Plugins** from the left sidebar
-4. Install from disk:
-    - Click the **⚙️ gear icon** → **Install Plugin from Disk...**
-    - Browse to your plugin's `.zip` file
-    - Select the file and click **OK**
-5. Activate the plugin in your `.ideavimrc`
-6. Restart IntelliJ IDEA
-
 
 ### Configuration
 
@@ -97,7 +84,7 @@ nmap <C-x> <Plug>(DialDecrement)
 
 #### If not specified, basic, number, and date groups are enabled by default. Also, specific language groups are enabled by default based on the JetBrains application in use. For example, IntelliJ IDEA will enable Java specific transformations, Pycharm will enable Python transformations, etc.
 
-- `basic`: Boolean values, operators, directions
+- `basic`: Boolean values, operators, directions, quotes
 - `numbers`: Integer, decimal, and scientific notation
 - `dates`: Date and time patterns
 - `java`: Java-specific patterns (visibility, basic types, collections methods, streams, etc.)
@@ -116,14 +103,16 @@ nmap <C-x> <Plug>(DialDecrement)
 | Category              | Transformation                      |
 |-----------------------|-------------------------------------|
 | **Boolean Values**    | `true` ↔ `false`                    |
+|                       | `True` ↔ `False`                    |
 | **Logical Operators** | `and` ↔ `or`                        |
+|                       | `AND` ↔ `OR`                        |
 |                       | `&&` ↔ `\|\|`                       |
-| **Bitwise Operators** | `&` ↔ `\|`                          |
 | **Comparison**        | `==` ↔ `!=`                         |
 |                       | `is` ↔ `is not`                     |
-|                       | `in` ↔ `not in`                     |
 |                       | `>` ↔ `<`                           |
+|                       | `>=` ↔ `<=`                         |
 | **Directional Words** | `up` ↔ `down` ↔ `left` ↔ `right`    |
+| **String Quotes**     | `"text"` ↔ `'text'` ↔ \`text\`      |
 | **HTTP Methods**      | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
 | **Log Levels**        | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
 
@@ -187,11 +176,15 @@ nmap <C-x> <Plug>(DialDecrement)
 |                           | `.filter` ↔ `.peek`                             |
 |                           | `.findAny` ↔ `.findFirst`                       |
 |                           | `.anyMatch` ↔ `.allMatch` ↔ `.noneMatch`        |
+| **Comparison**            | `==` ↔ `!=`                                     |
 
 ### Python Transformations
 
 | Category                  | Transformation                                      |
 |---------------------------|-----------------------------------------------------|
+| **Comparison Operators**  | `==` ↔ `!=`                                         |
+|                           | `is` ↔ `is not`                                     |
+|                           | `in` ↔ `not in`                                     |
 | **Data Types**            | `int` ↔ `float` ↔ `str` ↔ `bool`                    |
 | **Flow Control**          | `if` ↔ `elif`                                       |
 | **Loop Types**            | `for` ↔ `while`                                     |
@@ -228,6 +221,7 @@ nmap <C-x> <Plug>(DialDecrement)
 
 | Category                 | Transformation                                     |
 |--------------------------|----------------------------------------------------|
+| **Boolean Values**       | `true` ↔ `false`                                   |
 | **Mutability**           | `let mut` ↔ `let`                                  |
 | **Visibility**           | `pub` ↔ `pub(crate)` ↔ `pub(super)` ↔ `pub(self)`  |
 | **Result Handling**      | `.unwrap()` ↔ `.expect()` ↔ `.unwrap_or_default()` |
