@@ -61,10 +61,6 @@ intellijPlatform {
                 subList(indexOf(start) + 1, indexOf(end)).joinToString("\n").let(::markdownToHTML)
             }
         }
-        ideaVersion {
-            sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = provider { null }
-        }
         val changelog = project.changelog
         changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
             with(changelog) {
@@ -127,9 +123,18 @@ kotlin {
 }
 
 tasks {
+    buildSearchableOptions {
+        enabled = false
+    }
+
     signPlugin {
-        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        privateKey.set(System.getenv("PRIVATE_KEY"))
+        if (System.getenv("CERTIFICATE_CHAIN") != null && System.getenv("PRIVATE_KEY") != null) {
+            certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+            privateKey.set(System.getenv("PRIVATE_KEY"))
+        } else {
+            certificateChainFile.set(file(System.getenv("CERTIFICATE_CHAIN_FILE")))
+            privateKeyFile.set(file(System.getenv("PRIVATE_KEY_FILE")))
+        }
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 

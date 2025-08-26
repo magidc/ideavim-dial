@@ -45,3 +45,4 @@ bin/
 /.idea/
 /.run/Publish Plugin.run.xml
 /.run/Sign Plugin.run.xml
+/.run/Build Plugin.run.xml
