@@ -131,10 +131,11 @@ tasks {
         if (System.getenv("CERTIFICATE_CHAIN") != null && System.getenv("PRIVATE_KEY") != null) {
             certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
             privateKey.set(System.getenv("PRIVATE_KEY"))
-        } else {
+        } else if (System.getenv("CERTIFICATE_CHAIN_FILE") != null && System.getenv("PRIVATE_KEY_FILE") != null) {
             certificateChainFile.set(file(System.getenv("CERTIFICATE_CHAIN_FILE")))
             privateKeyFile.set(file(System.getenv("PRIVATE_KEY_FILE")))
-        }
+        } else
+            return@signPlugin
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
     }
 
