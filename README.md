@@ -32,18 +32,19 @@ Cycle through related values from various text elements, including numbers, date
 - **Case Preservation**: Maintains original case when transforming text
 - **Multiple Matches**: Automatically selects the closest match to your cursor
 
-### Requirements
-
-- IntelliJ IDEA 2025.1+
-- IdeaVim plugin 2.27.0+
-- Java 17+
-
-### Installation
+## Installation
+### Jetbrains Marketplace
 
 1. Install the plugin from the IntelliJ IDEA Plugin Marketplace
 2. Ensure you have the IdeaVim plugin installed and enabled
 3. Activate the plugin in your `.ideavimrc`
 4. Restart IntelliJ IDEA
+
+### Manual Installation
+
+1. Download the [latest release](https://github.com/magidc/ideavim-dial/releases)
+2. Install manually using <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+
 
 ### Configuration
 
@@ -296,5 +297,5 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
-- Inspired by [dial.nvim](https://github.com/monaqa/dial.nvim) for Neovim and [ideavim-switch](https://github.com/jphalip/ideavim-switch) plugin for JetBrains IDEs
 - Built on top of [IdeaVim](https://github.com/JetBrains/ideavim) plugin
+- Inspired by [dial.nvim](https://github.com/monaqa/dial.nvim) for Neovim and [ideavim-switch](https://github.com/jphalip/ideavim-switch) plugin for JetBrains IDEs
