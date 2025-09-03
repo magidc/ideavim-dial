@@ -1,9 +1,12 @@
 # Changelog
 
-## [Next]
+## 1.1.2
+- **Version codes increment bug fix**
+
+## 1.1.1
+- **Minor fixes**
 
 ## 1.1.0
-
 - **Smart version number decrementing**: It takes into consideration the scale of the last number: 10.2.00 → 10.1.99
 - **Various internal improvements**
 

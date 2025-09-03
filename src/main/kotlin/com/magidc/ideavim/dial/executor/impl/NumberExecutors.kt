@@ -20,7 +20,7 @@ object NumberExecutors : ExecutorProvider {
                 val token = tokens[i].trim()
                 if (VERSION_CODE_DELIMITERS.contains(token)) continue
                 val originalValue = BigDecimal(token)
-                if (originalValue.signum() == 0) {
+                if (!increment && originalValue.signum() == 0) {
                     tokens[i] = (10.0.pow(token.length.toDouble()) - 1).toInt().toString()
                     continue
                 }

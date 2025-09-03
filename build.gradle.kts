@@ -18,7 +18,7 @@ changelog {
     headerParserRegex.set("""(\d+\.\d+\.\d+)""".toRegex())
     itemPrefix.set("-")
     keepUnreleasedSection.set(true)
-    unreleasedTerm.set("[Next]")
+//    unreleasedTerm.set("[Next]")
     groups.set(listOf(""))
 }
 

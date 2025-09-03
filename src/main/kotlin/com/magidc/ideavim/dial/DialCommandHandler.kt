@@ -20,32 +20,34 @@ class DialCommandHandler(
         }
     }
 
-    private val executorCache = LRUCache<String, Optional<Executor>>(1000)
+    private val executorCache = LRUCache<Pair<Int, String>, Optional<Executor>>(100)
 
     override fun execute(command: String, range: Range, editor: VimEditor, context: ExecutionContext) {
         val lineRange = editorAdapter.getLineRange(editor)
         val text = lineRange.text
-        val textFromCaret = text.substring(lineRange.caretOffset)
-        val cachedExecutor = executorCache.get(textFromCaret)
+        val caretOffset = lineRange.caretOffset
+        val cacheKey = Pair(caretOffset - text.takeWhile { it.isWhitespace() }.length, text.trimStart())
+        val cachedExecutor = executorCache.get(cacheKey)
 
         val bestMatch =
             if (null != cachedExecutor)
-                cachedExecutor.orElse(null)?.findMatch(text, lineRange.caretOffset, reverse)
+                cachedExecutor.orElse(null)?.findMatch(text, caretOffset, reverse)
             else {
                 executors
                     .parallelStream()
-                    .map { it.findMatch(text, lineRange.caretOffset, reverse) }
+                    .map { it.findMatch(text, caretOffset, reverse) }
                     .filter { it != null }
                     .max(Comparator.comparingInt<Match> { -1 * (it.start) }.thenComparing { it.executor.priority }.thenComparing { it.replacement.length })
                     .orElse(null)
             }
         if (bestMatch != null) {
             editorAdapter.replace(editor, lineRange, bestMatch)
-            executorCache.remove(textFromCaret)
-            executorCache[bestMatch.replacement + lineRange.text.substring(bestMatch.end + 1)] = Optional.of(bestMatch.executor)
+            executorCache.remove(cacheKey)
+            val replacedText = (text.take(bestMatch.start) + bestMatch.replacement + text.substring(bestMatch.end + 1))
+            executorCache[Pair(bestMatch.start - replacedText.takeWhile { it.isWhitespace() }.length, replacedText.trimStart())] = Optional.of(bestMatch.executor)
         } else if (null == cachedExecutor) {
             // To avoid checking a piece of text that we know nothing matches
-            executorCache[textFromCaret] = Optional.empty()
+            executorCache[cacheKey] = Optional.empty()
         }
     }
 }
