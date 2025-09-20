@@ -2,11 +2,13 @@ package com.magidc.ideavim.dial.executor
 
 import com.magidc.ideavim.dial.model.Match
 import com.magidc.ideavim.dial.model.RegexUtils
+
 enum class ExecutorPriority(val value: Int) {
     BASIC(1),
     LANGUAGE_SPECIFIC(2),
     CUSTOM_EXECUTOR(3),
 }
+
 open class Executor(
     val category: String,
     val group: String,
@@ -15,8 +17,10 @@ open class Executor(
     val backwardTransform: (MatchResult) -> String?,
     val preserveCase: Boolean = false,
     val matchWithin: Boolean = false,
-    val id: String = category + "_" + group,
-    var priority: ExecutorPriority = ExecutorPriority.BASIC,
+    val minReplacementLength: Int = 0,
+    val reusable: Boolean = true, // This executor matches with the text that it generates as replacement
+    private val id: String = category + "_" + group,
+    private var priority: ExecutorPriority = ExecutorPriority.BASIC,
     private val regex: Regex = regexPattern.toRegex(),
 ) {
     open fun findMatch(text: String, cursorOffset: Int, reverse: Boolean): Match? {
@@ -57,6 +61,18 @@ open class Executor(
     override fun toString(): String {
         return id
     }
+
+    fun getPriority(): ExecutorPriority {
+        return priority
+    }
+
+    fun setPriority(priority: ExecutorPriority) {
+        this.priority = priority
+    }
+
+    fun getId(): String {
+        return id
+    }
 }
 
 fun regexExecutor(category: String, group: String, pattern: String, replacementPattern: String, matchWithin: Boolean = false): Executor {
@@ -66,8 +82,9 @@ fun regexExecutor(category: String, group: String, pattern: String, replacementP
         pattern,
         { _: MatchResult -> replacementPattern },
         { _: MatchResult -> replacementPattern },
-        pattern.startsWith("(?i)"),
-        matchWithin
+        preserveCase = pattern.startsWith("(?i)"),
+        matchWithin = matchWithin,
+        reusable = false
     )
 }
 
@@ -79,6 +96,7 @@ private fun buildWordSetExecutors(
     preserveCase: Boolean = false,
     matchWithin: Boolean = true,
 ): Executor {
+    val minWordLength = words.minOf { it.length }
     var pattern = if (wholeWords)
         "\\b(?:${words.joinToString("|") { RegexUtils.word(it) }})\\b"
     else
@@ -108,7 +126,8 @@ private fun buildWordSetExecutors(
         { matchResult: MatchResult -> forwardMap[matchResult.value.lowercase()] ?: matchResult.value },
         { matchResult: MatchResult -> backwardMap[matchResult.value.lowercase()] ?: matchResult.value },
         preserveCase,
-        matchWithin
+        matchWithin,
+        minWordLength,
     )
 }
 

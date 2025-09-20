@@ -11,7 +11,7 @@ import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
-import java.util.*
+import java.util.Locale
 import java.util.stream.Stream
 
 enum class TimePattern(val dateTimePattern: String, val regexPattern: String) {
@@ -58,8 +58,8 @@ object DateExecutors : ExecutorProvider {
                 return@DateTimeExecutor null
             }
         },
-        true,
-        true
+        preserveCase = true,
+        matchWithin = true,
     ) {
         companion object {
             fun fromSeparator(

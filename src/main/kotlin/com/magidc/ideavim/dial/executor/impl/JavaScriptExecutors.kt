@@ -2,11 +2,11 @@ package com.magidc.ideavim.dial.executor.impl
 
 import com.magidc.ideavim.dial.executor.Executor
 import com.magidc.ideavim.dial.executor.ExecutorPriority
+import com.magidc.ideavim.dial.executor.regexExecutor
 import com.magidc.ideavim.dial.model.RegexUtils.capture
 import com.magidc.ideavim.dial.model.RegexUtils.group
 import com.magidc.ideavim.dial.model.RegexUtils.optionalCapture
 import com.magidc.ideavim.dial.model.RegexUtils.word
-import com.magidc.ideavim.dial.executor.regexExecutor
 
 
 object JavaScriptExecutors : ExecutorProvider {
@@ -39,6 +39,6 @@ object JavaScriptExecutors : ExecutorProvider {
             regexExecutor(category, "es6_declarations", word("var") + "\\s+", "let "),
             regexExecutor(category, "es6_declarations", word("let") + "\\s+", "const "),
             regexExecutor(category, "es6_declarations", word("const") + "\\s+", "let ")
-        ).onEach { ex -> ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC }
+        ).onEach { ex -> ex.setPriority(ExecutorPriority.LANGUAGE_SPECIFIC) }
     }
 }

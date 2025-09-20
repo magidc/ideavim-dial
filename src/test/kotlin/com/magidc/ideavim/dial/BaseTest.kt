@@ -11,6 +11,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.mockStatic
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
+import java.util.LinkedList
 
 abstract class BaseTest : BasePlatformTestCase() {
     companion object {
@@ -59,7 +60,7 @@ abstract class BaseTest : BasePlatformTestCase() {
         val mockEditorAdapter = MockEditorAdapter(LineRange(text, 0, text.length, caretIndex))
         val executors = executorLoader.getEnabledExecutors(getDefinitions(), getCustomDefinitions())
 
-        DialCommandHandler(reverse, executors, mockEditorAdapter).execute("", Range(), MockVimEditor(), MockExecutionContext())
+        DialCommandHandler(reverse, LinkedList(executors), mockEditorAdapter).execute("", Range(), MockVimEditor(), MockExecutionContext())
 
         // No match found, return original input
         val match = mockEditorAdapter.match ?: return input

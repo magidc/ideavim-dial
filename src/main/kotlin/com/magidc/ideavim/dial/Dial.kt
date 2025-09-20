@@ -9,7 +9,7 @@ import com.maddyhome.idea.vim.vimscript.model.datatypes.VimDataType
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimList
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimString
 import com.magidc.ideavim.dial.executor.Executor
-import org.jetbrains.annotations.NonNls
+import java.util.LinkedList
 
 
 // Extension for switching between common text executor (e.g. true/false, &&/||, etc.)
@@ -20,13 +20,8 @@ class Dial : VimExtension {
         const val NORMALIZED_CASE_WORDSET_FUNCTION = "normalizedCaseWords"
         const val PATTERN_FUNCTION = "pattern"
         const val NORMALIZED_CASE_PATTERN_FUNCTION = "normalizedCasePattern"
-
-        @NonNls
         const val DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME = "dial_include"
-
-        @NonNls
         const val DIAL_CUSTOM_DEFINITIONS_VARIABLE_NAME = "dial_custom"
-
     }
 
     override fun getName(): String = "dial"
@@ -39,7 +34,7 @@ class Dial : VimExtension {
         registerNormalizedCasePatternFunction()
 
         // Register main dial commands
-        val enabledReplacementExecutors = getEnabledExecutors()
+        val enabledReplacementExecutors = LinkedList(getEnabledExecutors())
 
         VimExtensionFacade.addCommand(
             "DialIncrement",

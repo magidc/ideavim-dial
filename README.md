@@ -21,7 +21,7 @@ Cycle through related values from various text elements, including numbers, date
 - **Comparison Operators**: Toggle `==`/`!=`, `is`/`is not`, `>`/`<`, `>=`/`<=`
 - **Bitwise Operators**: Switch between `&`/`|`
 - **Directional Values**: Cycle through `up`/`down`/`left`/`right`
-- **Quote Styles**: Rotate between `"string"`, `'string'`, `↔` &#96;string&#96;
+- **Quote Styles**: Rotate between `"string"`, `'string'`, &#96;string&#96;
 - **Date/Time**: Smart date and time manipulation
 - **Language-specific**: Support specific transformations for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations) or [Markdown](#markdown-transformations)
 

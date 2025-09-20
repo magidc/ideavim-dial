@@ -5,7 +5,15 @@ import com.maddyhome.idea.vim.vimscript.model.datatypes.VimList
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimString
 import com.magidc.ideavim.dial.executor.Executor
 import com.magidc.ideavim.dial.executor.ExecutorPriority
-import com.magidc.ideavim.dial.executor.impl.*
+import com.magidc.ideavim.dial.executor.impl.BasicExecutors
+import com.magidc.ideavim.dial.executor.impl.DateExecutors
+import com.magidc.ideavim.dial.executor.impl.ExecutorProvider
+import com.magidc.ideavim.dial.executor.impl.JavaExecutors
+import com.magidc.ideavim.dial.executor.impl.JavaScriptExecutors
+import com.magidc.ideavim.dial.executor.impl.MarkdownExecutors
+import com.magidc.ideavim.dial.executor.impl.NumberExecutors
+import com.magidc.ideavim.dial.executor.impl.PythonExecutors
+import com.magidc.ideavim.dial.executor.impl.RustExecutors
 import com.magidc.ideavim.dial.executor.normalizedCaseWordSet
 import com.magidc.ideavim.dial.executor.wordSet
 import org.reflections.Reflections
@@ -83,7 +91,7 @@ class ExecutorLoader {
             .mapNotNull { rule ->
                 val pair = rule as? VimList
                 val functionName = (pair?.get(0) as? VimString)?.toString()
-                val wordList = (pair?.get(1) as? VimList)?.values?.map{ it.asString() }?.toList()?.toTypedArray()
+                val wordList = (pair?.get(1) as? VimList)?.values?.map { it.asString() }?.toList()?.toTypedArray()
                 if (functionName == null || wordList == null || wordList.isEmpty())
                     return@mapNotNull null
                 when (functionName) {
@@ -95,7 +103,7 @@ class ExecutorLoader {
                 return@mapNotNull null
             }
             // Custom executors have the highest priority
-            .onEach { ex -> ex.priority = ExecutorPriority.CUSTOM_EXECUTOR }
+            .onEach { ex -> ex.setPriority(ExecutorPriority.CUSTOM_EXECUTOR) }
             .toList()
     }
 
@@ -110,10 +118,10 @@ class ExecutorLoader {
         // It allows for executor replacement
         return (customExecutors + builtinExecutors).asSequence()
             .filter { executor ->
-                if (usedExecutorIds.contains(executor.id))
+                if (usedExecutorIds.contains(executor.getId()))
                     return@filter true
                 if (usedExecutorGroups.add(executor.group)) {
-                    usedExecutorIds.add(executor.id)
+                    usedExecutorIds.add(executor.getId())
                     return@filter true
                 }
                 return@filter false
