@@ -112,25 +112,18 @@ class BasicExecutorsTest : BaseTest() {
         assertThat(execute("if x  " + CARET + "is  not  y")).isEqualTo("if x  " + CARET + "is  y")
     }
 
-    fun testQuotes() {
-        assertThat(execute("value = " + CARET + "\"hello\"")).isEqualTo("value = " + CARET + "'hello'")
-        assertThat(execute("value = " + CARET + "'hello'")).isEqualTo("value = " + CARET + "`hello`")
-        assertThat(execute("value = " + CARET + "`hello`")).isEqualTo("value = " + CARET + "\"hello\"")
-
-        // Test with multiple quotes on same line
-        assertThat(execute("value = \"first\" + " + CARET + "\"second\"")).isEqualTo("value = \"first\" + " + CARET + "'second'")
-        assertThat(execute("value = " + CARET + "'first' + 'second'")).isEqualTo("value = " + CARET + "`first` + 'second'")
-    }
-
     fun testHTTPMethods() {
-        assertThat(execute("response = requests." + CARET + "get('url')")).isEqualTo("response = requests." + CARET + "post('url')")
-        assertThat(execute("response = requests." + CARET + "post('url')")).isEqualTo("response = requests." + CARET + "put('url')")
+        // To avoid confusions with getter methods, it is only enabled for upper case: GET, POST...
+        assertThat(execute("response = requests." + CARET + "get('url')")).isEqualTo("response = requests." + CARET + "get('url')")
+        assertThat(execute("response = requests." + CARET + "post('url')")).isEqualTo("response = requests." + CARET + "post('url')")
+
         assertThat(execute("response = requests." + CARET + "GET('url')")).isEqualTo("response = requests." + CARET + "POST('url')")
+        assertThat(execute("response = requests." + CARET + "POST('url')")).isEqualTo("response = requests." + CARET + "PUT('url')")
         assertThat(execute("response = requests." + CARET + "PUT('url')")).isEqualTo("response = requests." + CARET + "DELETE('url')")
 
         // Test with different caret positions
-        assertThat(execute("response = requests.g" + CARET + "et('url')")).isEqualTo("response = requests." + CARET + "post('url')")
-        assertThat(execute("response = requests.p" + CARET + "ost('url')")).isEqualTo("response = requests." + CARET + "put('url')")
+        assertThat(execute("response = requests.G" + CARET + "ET('url')")).isEqualTo("response = requests." + CARET + "POST('url')")
+        assertThat(execute("response = requests.P" + CARET + "OST('url')")).isEqualTo("response = requests." + CARET + "PUT('url')")
     }
 
     fun testLogLevels() {

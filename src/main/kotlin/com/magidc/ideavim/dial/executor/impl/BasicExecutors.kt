@@ -1,5 +1,6 @@
 package com.magidc.ideavim.dial.executor.impl
 
+import com.intellij.openapi.diagnostic.thisLogger
 import com.magidc.ideavim.dial.executor.Executor
 import com.magidc.ideavim.dial.model.RegexUtils.notFollowedBy
 import com.magidc.ideavim.dial.model.RegexUtils.standalone
@@ -31,10 +32,7 @@ object BasicExecutors : ExecutorProvider {
             regexExecutor(category, "equality", withOptionalSpaces("!="), "==", matchWithin = true),
             regexExecutor(category, "is_is_not", withRequiredSpaces(notFollowedBy("is", "\\s+not")), "is not"),
             regexExecutor(category, "is_is_not", withRequiredSpaces("is\\s+not"), "is"),
-            regexExecutor(category, "quotes", "\"([^\"]+)\"", "'$1'"),
-            regexExecutor(category, "quotes", "'([^']+)'", "`$1`"),
-            regexExecutor(category, "quotes", "`([^`]+)`", "\"$1\""),
-            normalizedCaseWordSet(category, "http_methods", "get", "post", "put", "delete", "patch"),
+            wordSet(category, "http_methods", "GET", "POST", "PUT", "DELETE", "PATCH"),
             normalizedCaseWordSet(category, "log_levels", "debug", "info", "warning", "error", "critical"),
         )
     }

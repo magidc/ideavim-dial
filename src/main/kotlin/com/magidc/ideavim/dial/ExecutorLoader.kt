@@ -14,6 +14,7 @@ import com.magidc.ideavim.dial.executor.impl.MarkdownExecutors
 import com.magidc.ideavim.dial.executor.impl.NumberExecutors
 import com.magidc.ideavim.dial.executor.impl.PythonExecutors
 import com.magidc.ideavim.dial.executor.impl.RustExecutors
+import com.magidc.ideavim.dial.executor.impl.TypeScriptExecutors
 import com.magidc.ideavim.dial.executor.normalizedCaseWordSet
 import com.magidc.ideavim.dial.executor.wordSet
 import org.reflections.Reflections
@@ -49,12 +50,15 @@ class ExecutorLoader {
     fun getDefaultIDEExecutors(): List<Executor> {
         // Get the default definitions based on the IDE name
         val ideName = ApplicationInfo.getInstance().fullApplicationName.lowercase()
-        val ideSpecificExecutors: ExecutorProvider? = when {
-            ideName.contains("intellij") -> builtinExecutorProviders[JavaExecutors.category]
-            ideName.contains("rustrover") -> builtinExecutorProviders[RustExecutors.category]
-            ideName.contains("webstorm") -> builtinExecutorProviders[JavaScriptExecutors.category]
-            ideName.contains("pycharm") -> builtinExecutorProviders[PythonExecutors.category]
-            else -> null
+        val ideSpecificExecutors: List<ExecutorProvider?> = when {
+            ideName.contains("intellij") -> listOf(builtinExecutorProviders[JavaExecutors.category])
+            ideName.contains("rustrover") -> listOf(builtinExecutorProviders[RustExecutors.category])
+            ideName.contains("webstorm") -> listOf(
+                builtinExecutorProviders[JavaScriptExecutors.category],
+                builtinExecutorProviders[TypeScriptExecutors.category]
+            )
+            ideName.contains("pycharm") -> listOf(builtinExecutorProviders[PythonExecutors.category])
+            else -> emptyList()
         }
 
         val basicExecutors: ExecutorProvider? = builtinExecutorProviders[BasicExecutors.category]
@@ -62,7 +66,7 @@ class ExecutorLoader {
         val dateExecutors: ExecutorProvider? = builtinExecutorProviders[DateExecutors.category]
         val markdownExecutors: ExecutorProvider? = builtinExecutorProviders[MarkdownExecutors.category]
 
-        return sequenceOf(ideSpecificExecutors, basicExecutors, numberExecutors, dateExecutors, markdownExecutors)
+        return (ideSpecificExecutors.asSequence() + sequenceOf( basicExecutors, numberExecutors, dateExecutors, markdownExecutors))
             .filterNotNull()
             .flatMap { it.buildExecutors().asSequence() }
             .toList()

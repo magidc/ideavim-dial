@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3
+
+- **Performance improvements**
+
 ## 1.1.2
 
 - **Version codes increment bug fix**

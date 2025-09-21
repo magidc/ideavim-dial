@@ -113,9 +113,8 @@ nmap <C-x> <Plug>(DialDecrement)
 |                       | `>` ↔ `<`                           |
 |                       | `>=` ↔ `<=`                         |
 | **Directional Words** | `up` ↔ `down` ↔ `left` ↔ `right`    |
-| **String Quotes**     | `"text"` ↔ `'text'` ↔ \`text\`      |
 | **HTTP Methods**      | `GET` ↔ `POST` ↔ `PUT` ↔ `DELETE`   |
-| **Log Levels**        | `DEBUG` ↔ `INFO` ↔ `WARN` ↔ `ERROR` |
+| **Log Levels**        | `debug` ↔ `info` ↔ `warn` ↔ `error` |
 
 ### Numeric Transformations
 
