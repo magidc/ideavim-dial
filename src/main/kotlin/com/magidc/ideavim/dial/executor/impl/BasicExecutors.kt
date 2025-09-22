@@ -1,14 +1,13 @@
 package com.magidc.ideavim.dial.executor.impl
 
-import com.intellij.openapi.diagnostic.thisLogger
 import com.magidc.ideavim.dial.executor.Executor
+import com.magidc.ideavim.dial.executor.normalizedCaseWordSet
+import com.magidc.ideavim.dial.executor.regexExecutor
+import com.magidc.ideavim.dial.executor.wordSet
 import com.magidc.ideavim.dial.model.RegexUtils.notFollowedBy
 import com.magidc.ideavim.dial.model.RegexUtils.standalone
 import com.magidc.ideavim.dial.model.RegexUtils.withOptionalSpaces
 import com.magidc.ideavim.dial.model.RegexUtils.withRequiredSpaces
-import com.magidc.ideavim.dial.executor.normalizedCaseWordSet
-import com.magidc.ideavim.dial.executor.regexExecutor
-import com.magidc.ideavim.dial.executor.wordSet
 
 interface ExecutorProvider {
     fun buildExecutors(): List<Executor>
@@ -21,11 +20,14 @@ object BasicExecutors : ExecutorProvider {
     override fun buildExecutors(): List<Executor> {
         return listOf(
             normalizedCaseWordSet(category, "up_down_left_right", "up", "down", "left", "right"),
-            wordSet(category, "logical_ops", "&&", "||", wholeWords = false),
-            wordSet(category, "numeric_comparison", ">", "<"),
-            wordSet(category, "numeric_comparison", ">=", "<="),
+            regexExecutor(category, "numeric_comparison", withRequiredSpaces("<"), ">"),
+            regexExecutor(category, "numeric_comparison", withRequiredSpaces(">"), "<"),
+            regexExecutor(category, "numeric_comparison", withOptionalSpaces("<="), ">=", matchWithin = true),
+            regexExecutor(category, "numeric_comparison", withOptionalSpaces(">="), "<=", matchWithin = true),
             regexExecutor(category, "bitwise_ops", standalone("&"), "|"),
             regexExecutor(category, "bitwise_ops", standalone("\\|"), "&"),
+            regexExecutor(category, "logical_ops", withOptionalSpaces("&&"), "||", matchWithin = true),
+            regexExecutor(category, "logical_ops", withOptionalSpaces("\\|\\|"), "&&", matchWithin = true),
             normalizedCaseWordSet(category, "true_false", "true", "false"),
             normalizedCaseWordSet(category, "and_or", "and", "or"),
             regexExecutor(category, "equality", withOptionalSpaces("=="), "!=", matchWithin = true),

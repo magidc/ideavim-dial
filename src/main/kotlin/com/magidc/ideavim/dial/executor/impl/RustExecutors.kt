@@ -34,6 +34,8 @@ object RustExecutors : ExecutorProvider {
                 atLineStart(capture("[\\w-]+") + "\\s*=\\s*\\{\\s*version\\s*=\\s*" + capture("[\"'].+[\"']") + "\\s*\\}"),
                 "$1 = $2"
             )
-        ).onEach { ex -> ex.setPriority(ExecutorPriority.LANGUAGE_SPECIFIC) }
+        ).onEach { ex ->
+            ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC
+        }
     }
 }

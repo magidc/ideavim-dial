@@ -57,6 +57,7 @@ class ExecutorLoader {
                 builtinExecutorProviders[JavaScriptExecutors.category],
                 builtinExecutorProviders[TypeScriptExecutors.category]
             )
+
             ideName.contains("pycharm") -> listOf(builtinExecutorProviders[PythonExecutors.category])
             else -> emptyList()
         }
@@ -66,7 +67,7 @@ class ExecutorLoader {
         val dateExecutors: ExecutorProvider? = builtinExecutorProviders[DateExecutors.category]
         val markdownExecutors: ExecutorProvider? = builtinExecutorProviders[MarkdownExecutors.category]
 
-        return (ideSpecificExecutors.asSequence() + sequenceOf( basicExecutors, numberExecutors, dateExecutors, markdownExecutors))
+        return (ideSpecificExecutors.asSequence() + sequenceOf(basicExecutors, numberExecutors, dateExecutors, markdownExecutors))
             .filterNotNull()
             .flatMap { it.buildExecutors().asSequence() }
             .toList()
@@ -107,7 +108,9 @@ class ExecutorLoader {
                 return@mapNotNull null
             }
             // Custom executors have the highest priority
-            .onEach { ex -> ex.setPriority(ExecutorPriority.CUSTOM_EXECUTOR) }
+            .onEach { ex ->
+                ex.priority = ExecutorPriority.CUSTOM_EXECUTOR
+            }
             .toList()
     }
 

@@ -3,10 +3,11 @@ package com.magidc.ideavim.dial
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimList
 import com.maddyhome.idea.vim.vimscript.model.datatypes.VimString
 import com.magidc.ideavim.dial.executor.impl.BasicExecutors
+import com.magidc.ideavim.dial.executor.impl.PythonExecutors
 import org.assertj.core.api.Assertions.assertThat
 
 class CustomDefinitionsTest : BaseTest() {
-    override fun getDefinitions(): String = BasicExecutors.category
+    override fun getDefinitions(): String = BasicExecutors.category + "," + PythonExecutors.category
 
     override fun getCustomDefinitions(): VimList {
         // Pattern set 1: Case insensitive with word boundaries

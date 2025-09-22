@@ -2,12 +2,13 @@
 
 # IdeaVim Dial
 
-IdeaVim extension with advanced text increment and decrement functionality. It enhances the standard increment/decrement functionality found in Vim editors by adding support for complex text patterns beyond simple numbers.
+IdeaVim extension with advanced text increment and decrement functionality. It enhances the standard increment/decrement functionality found in Vim editors by adding support for
+complex text patterns beyond simple numbers.
 
 Cycle through related values from various text elements, including numbers, dates, boolean values, operators, and programming language-specific keywords.
 
-
 ## Features
+
 - **Vim-like Behavior**: Increment or decrement numbers just like Vim's `Ctrl+A`/`Ctrl+X`
 - **Search from cursor**: Transforms the first matching word found from the cursor position forward within the current line
 - **Works within words**: Cursor can be also within the target word
@@ -23,7 +24,9 @@ Cycle through related values from various text elements, including numbers, date
 - **Directional Values**: Cycle through `up`/`down`/`left`/`right`
 - **Quote Styles**: Rotate between `"string"`, `'string'`, &#96;string&#96;
 - **Date/Time**: Smart date and time manipulation
-- **Language-specific**: Support specific transformations for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations) or [Markdown](#markdown-transformations)
+- **Language-specific**: Support specific transformations
+  for [Java](#java-transformations), [Python](#python-transformations), [JavaScript](#javascript-transformations), [Rust](#rust-transformations)
+  or [Markdown](#markdown-transformations)
 
 ### Smart Context Awareness
 
@@ -33,6 +36,7 @@ Cycle through related values from various text elements, including numbers, date
 - **Multiple Matches**: Automatically selects the closest match to your cursor
 
 ## Installation
+
 ### Jetbrains Marketplace
 
 1. Install the plugin from the IntelliJ IDEA Plugin Marketplace
@@ -44,7 +48,6 @@ Cycle through related values from various text elements, including numbers, date
 
 1. Download the [latest release](https://github.com/magidc/ideavim-dial/releases)
 2. Install manually using <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
 
 ### Configuration
 
@@ -94,7 +97,6 @@ nmap <C-x> <Plug>(DialDecrement)
 - `markdown`: Markdown formatting
 - `rust`: Rust-specific patterns
 
-
 <!-- Plugin description end -->
 
 ## Built-in Transformations
@@ -142,7 +144,6 @@ nmap <C-x> <Plug>(DialDecrement)
 |                         | `2.1.0.RC1`        | `2.1.1.RC1`        | `2.0.9.RC1`        | Release candidate                      |
 |                         | `1.0_beta`         | `1.1_beta`         | `0.9_beta`         | Underscore separator                   |
 
-
 ### Date & Time Transformations
 
 | Format                   | Example                | Increment Unit |
@@ -176,7 +177,6 @@ nmap <C-x> <Plug>(DialDecrement)
 |                           | `.filter` ↔ `.peek`                             |
 |                           | `.findAny` ↔ `.findFirst`                       |
 |                           | `.anyMatch` ↔ `.allMatch` ↔ `.noneMatch`        |
-| **Comparison**            | `==` ↔ `!=`                                     |
 
 ### Python Transformations
 
@@ -202,14 +202,24 @@ nmap <C-x> <Plug>(DialDecrement)
 
 ### JavaScript Transformations
 
-| Category                  | Transformation                                        |
-|---------------------------|-------------------------------------------------------|
-| **Function Declarations** | `function name() {}` ↔ `const name = () => {}`        |
-|                           | `var/let/const name = function()` ↔ `function name()` |
-| **Arrow Functions**       | `function() {}` ↔ `() => {}`                          |
-|                           | `function(params) {}` ↔ `(params) => {}`              |
-|                           | `param => {}` ↔ `function(param) {}`                  |
-| **Variable Declarations** | `var` ↔ `let` ↔ `const`                               |
+| Category                                              | Transformation                                     |
+|-------------------------------------------------------|----------------------------------------------------|
+| **Named functions / Arrow functions expressions**     | `function name() {}` ↔ `const name = () => {}`     |
+| **Arrow functions / Anonymous functions**             | `() => {}` ↔ `function() {}`                       |
+| **Anonymous functions expressions / Named functions** | `const name = function(){}` ↔ `function name() {}` |
+| **Variable Declarations**                             | `let` ↔ `var` ↔ `const`                            |
+
+*Note: Function transformations preserve parameter lists and async keywords when present.*
+
+
+### TypeScript Transformations
+
+| Category             | Transformation                                                                    |
+|----------------------|-----------------------------------------------------------------------------------|
+| **Basic Types**      | `string` ↔ `number` ↔ `boolean` ↔ `object` ↔ `any` ↔ `unknown` ↔ `never` ↔ `void` |
+| **Utility Types**    | `Partial` ↔ `Required` ↔ `Readonly` ↔ `Pick` ↔ `Omit` ↔ `Record`                  |
+| **Access Modifiers** | `public` ↔ `private` ↔ `protected` ↔ `readonly`                                   |
+
 
 ### Markdown Transformations
 
@@ -240,7 +250,9 @@ nmap <C-x> <Plug>(DialDecrement)
 | **Error Propagation**    | `?` ↔ `.unwrap()`                                  |
 
 ## Custom Transformations
+
 Add custom definitions to your file using the following format: `.ideavimrc`
+
 ``` vim
 let g:dial_custom_definitions = [
     ['normalizedCaseWords', ['one', 'two', 'three']],
@@ -249,28 +261,35 @@ let g:dial_custom_definitions = [
     ['pattern', ['start', 'middle', 'end']]
 ]
 ```
+
 ### Function Types
+
 #### `normalizedCaseWords`
+
 - **Case insensitive** matching
 - **Word boundaries** required (won't match partial words)
 - Example: `One` → → `Three` → `One` `Two`
 
 #### `words`
+
 - **Case sensitive** matching
 - **Word boundaries** required (won't match partial words)
 - Example: `un` → `deux` → `trois` → `un`
 
 ### `normalizedCasePattern`
+
 - **Case insensitive** matching
 - **No word boundaries** (matches anywhere in text)
 - Example: `Alpha123` → `Beta123` → `Gamma123` → `Alpha123`
 
 ### `pattern`
+
 - **Case sensitive** matching
 - **No word boundaries** (matches anywhere in text)
 - Example: `start_var` → `middle_var` → `end_var` → `start_var`
 
 ### Complete Example
+
 ``` vimscript
 " Define custom word cycling sets
 let g:dial_custom_definitions = [
@@ -287,6 +306,7 @@ let g:dial_custom_definitions = [
     ['pattern', ['low', 'medium', 'high', 'critical']]
 ]
 ```
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
@@ -296,5 +316,6 @@ Contributions are welcome! Please feel free to submit issues, feature requests, 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
+
 - Built on top of [IdeaVim](https://github.com/JetBrains/ideavim) plugin
 - Inspired by [dial.nvim](https://github.com/monaqa/dial.nvim) for Neovim and [ideavim-switch](https://github.com/jphalip/ideavim-switch) plugin for JetBrains IDEs

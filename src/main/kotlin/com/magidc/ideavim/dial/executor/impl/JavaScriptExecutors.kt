@@ -13,33 +13,73 @@ object JavaScriptExecutors : ExecutorProvider {
     override val category = "javascript"
 
     override fun buildExecutors(): List<Executor> {
+        /**
+         * Name Function: function name() {}
+         * Named Function Expression: const x = function name() {}
+         * Anonymous Function: function() {}
+         * Anonymous Function Expression: const x = function() {}
+         * Arrow Function: const () => {}
+         * Arrow Function expression: const x = () => {}
+         */
+
         return listOf(
+            //  () => {} -----> function() {}
             regexExecutor(
                 category,
-                "function",
-                optionalCapture("async\\s+") + "function\\s*" + capture("\\w+") + "\\s*\\(" + optionalCapture("[^()]+") + "\\)\\s*\\{",
-                "const $2 = $1($3) => {",
-                true
+                "arrow_function_to_anonymous_function",
+                optionalCapture("async\\s+") + "\\(" + optionalCapture("[^()]+") + "\\)\\s*=>\\s*\\{",
+                "$1function($2) {",
+                matchWithin = true,
+                matchBefore = false,
             ),
+            //  item => {} -----> function(item) {}
             regexExecutor(
                 category,
-                "function",
-                group("var|let|const") + "\\s+" + capture("\\w+") + "\\s*=\\s*" + optionalCapture("async\\s+") + "function\\s*\\(",
-                "$2function $1(",
-                true
+                "single_item_arrow_function_to_anonymous_function",
+                optionalCapture("async\\s+") + capture("\\w+") + "\\s*=>\\s*\\{",
+                "$1function($2) {",
+                matchWithin = true,
+                matchBefore = false,
             ),
-             regexExecutor(
+            //  function() {} -----> () => {}
+            regexExecutor(
                 category,
-                "function",
+                "anonymous_function_to_arrow_function",
+                optionalCapture("async\\s+") + "function\\s*\\(" + optionalCapture("[^()]+") + "\\)\\s*\\{",
+                "$1($2) => {",
+                matchWithin = true,
+                matchBefore = false,
+            ),
+            // var name = () => {} -----> function name() {}
+            regexExecutor(
+                category,
+                "arrow_function_expression_to_named_function",
                 group("var|let|const") + "\\s+" + capture("\\w+") + "\\s*=\\s*" + optionalCapture("async\\s+") + "\\(" + optionalCapture("[^()]+") + "\\)\\s*=>\\s*\\{",
                 "$2function $1($3) {",
-                true
+                matchWithin = true,
+                matchBefore = false,
             ),
-            regexExecutor(category, "arrow_function", "function\\s*\\(\\)\\s*\\{", "() => {", true),
-            regexExecutor(category, "arrow_function", "function\\s*\\(" + capture("[^()]+") + "\\)\\s*\\{", "($1) => {", true),
-            regexExecutor(category, "arrow_function", "\\(" + optionalCapture("[^()]+") + "\\)\\s*=>\\s*\\{", "function($1) {", true),
-            regexExecutor(category, "arrow_function", capture("\\w+") + "\\s*=>\\s*\\{", "function($1) {", true),
-            wordSet(JavaExecutors.category, "es6_declarations", "let", "var", "const"),
-        ).onEach { ex -> ex.setPriority(ExecutorPriority.LANGUAGE_SPECIFIC) }
+            // function name() {} -----> const name = () => {}
+            regexExecutor(
+                category,
+                "named_function_to_arrow_function_expression",
+                optionalCapture("async\\s+") + "function\\s+" + capture("\\w+") + "\\s*\\(" + optionalCapture("[^()]+") + "\\)\\s*\\{",
+                "const $2 = $1($3) => {",
+                matchWithin = true,
+                matchBefore = false,
+            ),
+            // var name = function() -----> function name() {}
+            regexExecutor(
+                category,
+                "anonymous_function_expression_to_named_function",
+                group("var|let|const") + "\\s+" + capture("\\w+") + "\\s*=\\s*" + optionalCapture("async\\s+") + "function\\s*\\(" + optionalCapture("[^()]+") + "\\)\\s*\\{",
+                "$2function $1($3) {",
+                matchWithin = true,
+                matchBefore = false,
+            ),
+            wordSet(category, "es6_declarations", "let", "var", "const"),
+        ).onEach { ex ->
+            ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC
+        }
     }
 }

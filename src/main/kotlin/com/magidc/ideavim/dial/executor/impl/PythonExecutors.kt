@@ -29,7 +29,9 @@ object PythonExecutors : ExecutorProvider {
             wordSet(category, "assertions", "assertIn", "assertNotIn", wholeWords = false),
             regexExecutor(category, "quotes", "\"([^\"]+)\"", "'$1'"),
             regexExecutor(category, "quotes", "'([^']+)'", "\"$1\""),
-        ).onEach { ex -> ex.setPriority(ExecutorPriority.LANGUAGE_SPECIFIC) }
+        ).onEach { ex ->
+            ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC
+        }
 
     }
 }

@@ -27,6 +27,8 @@ object JavaExecutors : ExecutorProvider {
             wordSet(category, "streams", ".filter", ".peek", wholeWords = false),
             wordSet(category, "streams", ".findAny", ".findFirst", wholeWords = false),
             wordSet(category, "streams", ".anyMatch", ".allMatch", ".noneMatch", wholeWords = false),
-        ).onEach { ex -> ex.setPriority(ExecutorPriority.LANGUAGE_SPECIFIC) }
+        ).onEach { ex ->
+            ex.priority = ExecutorPriority.LANGUAGE_SPECIFIC
+        }
     }
 }

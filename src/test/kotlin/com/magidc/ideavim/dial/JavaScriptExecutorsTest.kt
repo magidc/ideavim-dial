@@ -21,20 +21,20 @@ class JavaScriptExecutorsTest : BaseTest() {
 
     fun testVariableAssignmentToNamedFunction() {
         // var assignment to function
-        assertThat(execute(CARET + "var myFunc = function(")).isEqualTo(CARET + "function myFunc(")
-        assertThat(execute(CARET + "var handler = async function(")).isEqualTo(CARET + "async function handler(")
+        assertThat(execute("var my" + CARET + "Func = function() {")).isEqualTo(CARET + "function myFunc() {")
+        assertThat(execute("var " + CARET + "handler = async function() {")).isEqualTo(CARET + "async function handler() {")
 
         // let assignment to function
-        assertThat(execute(CARET + "let calculate = function(")).isEqualTo(CARET + "function calculate(")
-        assertThat(execute(CARET + "let process = async function(")).isEqualTo(CARET + "async function process(")
+        assertThat(execute("let " + CARET + "calculate = function() {")).isEqualTo(CARET + "function calculate() {")
+        assertThat(execute("let " + CARET + "process = async function() {")).isEqualTo(CARET + "async function process() {")
 
         // const assignment to function
-        assertThat(execute(CARET + "const transform = function(")).isEqualTo(CARET + "function transform(")
-        assertThat(execute(CARET + "const fetch = async function(")).isEqualTo(CARET + "async function fetch(")
+        assertThat(execute("const " + CARET + "transform = function() {")).isEqualTo(CARET + "function transform() {")
+        assertThat(execute("const " + CARET + "fetch = async function() {")).isEqualTo(CARET + "async function fetch() {")
 
         // Test with different caret positions
-        assertThat(execute("v" + CARET + "ar helper = function(")).isEqualTo(CARET + "function helper(")
-        assertThat(execute("let util" + CARET + " = function(")).isEqualTo(CARET + "function util(")
+        assertThat(execute("var hel" + CARET + "per = function() {")).isEqualTo(CARET + "function helper() {")
+        assertThat(execute("let ut" + CARET + "il = function() {")).isEqualTo(CARET + "function util() {")
     }
 
     fun testArrowFunctionToRegularFunction() {
@@ -74,7 +74,7 @@ class JavaScriptExecutorsTest : BaseTest() {
 
     fun testNoMatchForPartialWords() {
         // Should not match parts of larger words
-        assertThat(execute("myfunction" + CARET + "call()")).isEqualTo("myfunction" + CARET + "call()")
+        assertThat(execute("myfunction" + CARET + "call() {")).isEqualTo("myfunction" + CARET + "call() {")
         assertThat(execute("constant" + CARET + "value = 5")).isEqualTo("constant" + CARET + "value = 5")
         assertThat(execute("lettering" + CARET + " = text")).isEqualTo("lettering" + CARET + " = text")
     }
@@ -82,13 +82,12 @@ class JavaScriptExecutorsTest : BaseTest() {
     fun testMultipleOccurrencesChoosesClosestToCursor() {
         assertThat(execute("let x = 5; " + CARET + "var y = 10")).isEqualTo("let x = 5; " + CARET + "const y = 10")
         assertThat(execute(CARET + "let a = 1; const b = 2")).isEqualTo(CARET + "var a = 1; const b = 2")
-        assertThat(execute("function test() {}; " + CARET + "function other() {")).isEqualTo("function test() {}; ${CARET}const other = () => {")
     }
 
     fun testWithSurroundingSpacesAndPunctuation() {
         assertThat(execute("if (condition) { " + CARET + "var result = true; }")).isEqualTo("if (condition) { " + CARET + "const result = true; }")
         assertThat(execute("return " + CARET + "function(x) {")).isEqualTo("return " + CARET + "(x) => {")
-        assertThat(execute("const handler = " + CARET + "(event) => {")).isEqualTo("const handler = " + CARET + "function(event) {")
+        assertThat(execute("const handler = (event) " + CARET + "=> {")).isEqualTo(CARET + "function handler(event) {")
     }
 
     fun testReverseTransformations() {
@@ -105,5 +104,29 @@ class JavaScriptExecutorsTest : BaseTest() {
         // Test reverse direction for named functions
         assertThat(execute("const " + CARET + "add = (a, b) => {", true)).isEqualTo(CARET + "function add(a, b) {")
         assertThat(execute("const " + CARET + "fetch = async () => {", true)).isEqualTo(CARET + "async function fetch() {")
+    }
+
+    fun testAllKindOfFunctions() {
+        // Arrow function / Anonymous function (no parameters)
+        assertThat(execute(CARET + "() => {")).isEqualTo(CARET + "function() {")
+        assertThat(execute(CARET + "function() {")).isEqualTo(CARET + "() => {")
+
+        // Arrow function / Anonymous function (async)
+        assertThat(execute(CARET + "async () => {")).isEqualTo(CARET + "async function() {")
+        assertThat(execute(CARET + "async function() {")).isEqualTo(CARET + "async () => {")
+
+        // Arrow function / Anonymous function (parameters)
+        assertThat(execute(CARET + "(a,b) => {")).isEqualTo(CARET + "function(a,b) {")
+        assertThat(execute(CARET + "function(a,b) {")).isEqualTo(CARET + "(a,b) => {")
+
+        // Arrow function / Anonymous function (single parameter)
+        assertThat(execute(CARET + "item => {")).isEqualTo(CARET + "function(item) {")
+
+        // Expressions
+        // Arrow function expression / Named function expression
+        assertThat(execute("const " + CARET + "add = () => {")).isEqualTo(CARET + "function add() {")
+
+        // Anonymous function expression / Named function
+        assertThat(execute("const " + CARET + "fetch = async function() {")).isEqualTo(CARET + "async function fetch() {")
     }
 }

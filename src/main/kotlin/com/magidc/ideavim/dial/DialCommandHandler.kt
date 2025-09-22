@@ -33,12 +33,12 @@ class DialCommandHandler(
             // If the executor informs its minimum replacement size, we can avoid shorter texts that will never match
             if (trimmedTextLength < executor.minReplacementLength) continue
             val match = executor.findMatch(text, caretOffset, reverse) ?: continue
-            if (
-                bestMatch == null
-                || match.start < bestMatch.start
-                || match.start == bestMatch.start && (match.executor.getPriority() > bestMatch.executor.getPriority() || match.replacement.length > bestMatch.replacement.length)
-            )
+            if (bestMatch == null)
                 bestMatch = match
+            else {
+                if (match.start < bestMatch.start || (bestMatch.start == match.start && (match.end - match.start) > (bestMatch.end - bestMatch.start)))
+                    bestMatch = match
+            }
         }
         return bestMatch
     }
@@ -64,10 +64,10 @@ class DialCommandHandler(
                 // Cyclic executors (like word sets) are cached for the current position as it is known that they will always match
                 executorCache.remove(cacheKey)
                 executorCache[Pair(bestMatch.start - replacedText.takeWhile { it.isWhitespace() }.length, replacedText.trimStart())] = Optional.of(executor)
-                // Recently used executors to the front of the evaluation list as they are most likely to be used again
-                executors.remove(executor)
-                executors.addFirst(executor)
             }
+            // Recently used executors to the front of the evaluation list as they are most likely to be used again
+            executors.remove(executor)
+            executors.addFirst(executor)
         } else {
             // To avoid checking a piece of text that doesn't match anything'
             executorCache[cacheKey] = Optional.empty()

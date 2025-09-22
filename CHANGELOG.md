@@ -4,6 +4,28 @@
 
 - **Performance improvements**
 
+### JavaScript Transformations
+
+| Category                                              | Transformation                                     |
+|-------------------------------------------------------|----------------------------------------------------|
+| **Named functions / Arrow functions expressions**     | `function name() {}` ↔ `const name = () => {}`     |
+| **Arrow functions / Anonymous functions**             | `() => {}` ↔ `function() {}`                       |
+| **Anonymous functions expressions / Named functions** | `const name = function(){}` ↔ `function name() {}` |
+| **Variable Declarations**                             | `let` ↔ `var` ↔ `const`                            |
+
+*Note: Function transformations preserve parameter lists and async keywords when present.*
+
+
+### TypeScript Transformations
+
+| Category             | Transformation                                                                    |
+|----------------------|-----------------------------------------------------------------------------------|
+| **Basic Types**      | `string` ↔ `number` ↔ `boolean` ↔ `object` ↔ `any` ↔ `unknown` ↔ `never` ↔ `void` |
+| **Utility Types**    | `Partial` ↔ `Required` ↔ `Readonly` ↔ `Pick` ↔ `Omit` ↔ `Record`                  |
+| **Access Modifiers** | `public` ↔ `private` ↔ `protected` ↔ `readonly`                                   |
+
+
+
 ## 1.1.2
 
 - **Version codes increment bug fix**

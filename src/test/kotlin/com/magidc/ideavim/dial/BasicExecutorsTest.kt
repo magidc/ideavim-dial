@@ -74,6 +74,23 @@ class BasicExecutorsTest : BaseTest() {
         assertThat(execute("if (x o" + CARET + "r y)")).isEqualTo("if (x " + CARET + "and y)")
     }
 
+    fun testComparison() {
+        assertThat(execute("if x " + CARET + "> y")).isEqualTo("if x " + CARET + "< y")
+        assertThat(execute("if x " + CARET + "<= y")).isEqualTo("if x " + CARET + ">= y")
+
+        // Test with different spacing
+        assertThat(execute("if x  " + CARET + ">  y")).isEqualTo("if x  " + CARET + "<  y")
+        assertThat(execute("if x  " + CARET + ">=y")).isEqualTo("if x  " + CARET + "<=y")
+
+        // Test with difference caret position
+        assertThat(execute("if x <" + CARET + "= y")).isEqualTo("if x " + CARET + ">= y")
+        assertThat(execute("if " + CARET + "x <= y")).isEqualTo("if x " + CARET + ">= y")
+
+        // Test that should not match
+        assertThat(execute("if x" + CARET + "<y>")).isEqualTo("if x" + CARET + "<y>")
+        assertThat(execute("if x  " + CARET + ">y")).isEqualTo("if x  " + CARET + ">y")
+    }
+
     fun testUppercaseAndOr() {
         assertThat(execute("if (x " + CARET + "AND y)")).isEqualTo("if (x " + CARET + "OR y)")
         assertThat(execute("if (x " + CARET + "OR y)")).isEqualTo("if (x " + CARET + "AND y)")
