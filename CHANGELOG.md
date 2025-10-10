@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+
+- **Wrong mappings description in the README fixed**
+
 ## 1.1.3
 
 - **Performance improvements**

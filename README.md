@@ -78,10 +78,10 @@ Add these mappings to your `.ideavimrc`:
 
 ```vimscript
 " Map Ctrl+A to increment
-nmap <C-a> <Plug>(DialIncrement)
+nnoremap <C-a> :DialIncrement<cr>
 
 " Map Ctrl+X to decrement  
-nmap <C-x> <Plug>(DialDecrement)
+nnoremap <C-x> :DialDecrement<cr>
 ```
 
 ## Available Groups
