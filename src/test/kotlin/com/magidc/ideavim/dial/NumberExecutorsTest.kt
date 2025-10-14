@@ -6,20 +6,20 @@ import org.assertj.core.api.Assertions.assertThat
 class NumberExecutorsTest : BaseTest() {
     override fun getDefinitions(): String = NumberExecutors.category
 
-    fun testVersionCodes() {
-        assertThat(execute("version$CARET = 10.23.0-SNAPSHOT")).isEqualTo("version = ${CARET}10.23.1-SNAPSHOT")
-        assertThat(execute("version$CARET = 10.23.9-SNAPSHOT")).isEqualTo("version = ${CARET}10.23.10-SNAPSHOT")
-
-        assertThat(execute("version$CARET = 10.23.4-SNAPSHOT")).isEqualTo("version = ${CARET}10.23.5-SNAPSHOT")
-        assertThat(execute("10$CARET.23.4.RC1")).isEqualTo("${CARET}10.23.5.RC1")
-        assertThat(execute("${CARET}10.23.4")).isEqualTo("${CARET}10.23.5")
-
-        assertThat(execute("version$CARET = 10.23.4-SNAPSHOT", true)).isEqualTo("version = ${CARET}10.23.3-SNAPSHOT")
-        assertThat(execute("10$CARET.23.4.RC1", true)).isEqualTo("${CARET}10.23.3.RC1")
-        assertThat(execute("${CARET}10.23.4", true)).isEqualTo("${CARET}10.23.3")
-        assertThat(execute("${CARET}10.23.0", true)).isEqualTo("${CARET}10.22.9")
-        assertThat(execute("${CARET}10.23.00", true)).isEqualTo("${CARET}10.22.99")
-    }
+//    fun testVersionCodes() {
+//        assertThat(execute("version$CARET = 10.23.0-SNAPSHOT")).isEqualTo("version = ${CARET}10.23.1-SNAPSHOT")
+//        assertThat(execute("version$CARET = 10.23.9-SNAPSHOT")).isEqualTo("version = ${CARET}10.23.10-SNAPSHOT")
+//
+//        assertThat(execute("version$CARET = 10.23.4-SNAPSHOT")).isEqualTo("version = ${CARET}10.23.5-SNAPSHOT")
+//        assertThat(execute("10$CARET.23.4.RC1")).isEqualTo("${CARET}10.23.5.RC1")
+//        assertThat(execute("${CARET}10.23.4")).isEqualTo("${CARET}10.23.5")
+//
+//        assertThat(execute("version$CARET = 10.23.4-SNAPSHOT", true)).isEqualTo("version = ${CARET}10.23.3-SNAPSHOT")
+//        assertThat(execute("10$CARET.23.4.RC1", true)).isEqualTo("${CARET}10.23.3.RC1")
+//        assertThat(execute("${CARET}10.23.4", true)).isEqualTo("${CARET}10.23.3")
+//        assertThat(execute("${CARET}10.23.0", true)).isEqualTo("${CARET}10.22.9")
+//        assertThat(execute("${CARET}10.23.00", true)).isEqualTo("${CARET}10.22.99")
+//    }
 
     fun testPositiveInteger() {
         assertThat(execute(CARET + "0")).isEqualTo(CARET + "1")

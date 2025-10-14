@@ -139,10 +139,6 @@ nnoremap <C-x> :DialDecrement<cr>
 |                         | `1E-3`             | `2E-3`             | `0E-3`             | Uppercase E notation                   |
 |                         | `2.5e10`           | `3.5e10`           | `1.5e10`           | Decimal base with exponent             |
 |                         | `-1.0E-2`          | `-0.0E-2`          | `-2.0E-2`          | Negative scientific notation           |
-| **Version Codes**       | `1.2.3`            | `1.2.4`            | `1.2.2`            | Standard semantic versioning           |
-|                         | `10.23.4-SNAPSHOT` | `10.23.5-SNAPSHOT` | `10.23.3-SNAPSHOT` | With suffix                            |
-|                         | `2.1.0.RC1`        | `2.1.1.RC1`        | `2.0.9.RC1`        | Release candidate                      |
-|                         | `1.0_beta`         | `1.1_beta`         | `0.9_beta`         | Underscore separator                   |
 
 ### Date & Time Transformations
 

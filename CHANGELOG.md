@@ -1,4 +1,7 @@
 # Changelog
+## 1.1.5
+
+- **Removed version code handling. It was causing conflicts with date handlers**
 
 ## 1.1.4
 

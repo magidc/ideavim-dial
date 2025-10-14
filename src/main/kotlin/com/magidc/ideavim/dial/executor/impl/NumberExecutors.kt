@@ -57,14 +57,14 @@ object NumberExecutors : ExecutorProvider {
 
     override fun buildExecutors(): List<Executor> {
         return listOf(
-            Executor(
-                category,
-                "version_codes",
-                "\\d+(?:\\.\\d+)*(?:[\\.\\-_]\\w+)*",
-                { matchResult: MatchResult -> incrementVersionCode(matchResult) },
-                { matchResult: MatchResult -> incrementVersionCode(matchResult, false) },
-                matchWithin = true,
-            ),
+//            Executor(
+//                category,
+//                "version_codes",
+//                "\\d+(?:\\.\\d+)*(?:[\\.\\-_]\\w+)*",
+//                { matchResult: MatchResult -> incrementVersionCode(matchResult) },
+//                { matchResult: MatchResult -> incrementVersionCode(matchResult, false) },
+//                matchWithin = true,
+//            ),
             Executor(
                 category,
                 "signed_decimals",
