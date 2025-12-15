@@ -128,7 +128,7 @@ private val executorLoader = ExecutorLoader()
 
 // Get executor enabled via dial_definitions in .ideavimrc
 private fun getEnabledExecutors(): List<Executor> {
-    val builtinDefinitions = VimPlugin.getVariableService().getGlobalVariableValue(Dial.DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME)?.toString() ?: ""
+    val builtinDefinitions = VimPlugin.getVariableService().getGlobalVariableValue(Dial.DIAL_INCLUDED_DEFINITIONS_VARIABLE_NAME)?.toVimString()?.value ?: ""
     val customDefinitions = VimPlugin.getVariableService().getGlobalVariableValue(Dial.DIAL_CUSTOM_DEFINITIONS_VARIABLE_NAME) as? VimList ?: VimList(mutableListOf())
     return executorLoader.getEnabledExecutors(builtinDefinitions, customDefinitions)
 }
@@ -144,8 +144,8 @@ private fun buildPattern(words: List<VimDataType>, patternFormat: PatternFormat)
             add(
                 VimList(
                     mutableListOf(
-                        VimString(patternFormat.format(word.toString())),
-                        VimString(words[nextIndex].toString()),
+                        VimString(patternFormat.format(word.toVimString().value)),
+                        VimString(words[nextIndex].toVimString().value),
                     ),
                 ),
             )

@@ -1,4 +1,9 @@
 # Changelog
+
+## 1.1.6
+
+Updated deprecated methods
+
 ## 1.1.5
 
 - **Removed version code handling. It was causing conflicts with date handlers**
@@ -22,7 +27,6 @@
 
 *Note: Function transformations preserve parameter lists and async keywords when present.*
 
-
 ### TypeScript Transformations
 
 | Category             | Transformation                                                                    |
@@ -30,8 +34,6 @@
 | **Basic Types**      | `string` ↔ `number` ↔ `boolean` ↔ `object` ↔ `any` ↔ `unknown` ↔ `never` ↔ `void` |
 | **Utility Types**    | `Partial` ↔ `Required` ↔ `Readonly` ↔ `Pick` ↔ `Omit` ↔ `Record`                  |
 | **Access Modifiers** | `public` ↔ `private` ↔ `protected` ↔ `readonly`                                   |
-
-
 
 ## 1.1.2
 

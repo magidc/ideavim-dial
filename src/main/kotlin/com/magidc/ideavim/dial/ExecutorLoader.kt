@@ -95,8 +95,8 @@ class ExecutorLoader {
         return customDefinitions.values
             .mapNotNull { rule ->
                 val pair = rule as? VimList
-                val functionName = (pair?.get(0) as? VimString)?.toString()
-                val wordList = (pair?.get(1) as? VimList)?.values?.map { it.asString() }?.toList()?.toTypedArray()
+                val functionName = (pair?.get(0) as? VimString)?.value
+                val wordList = (pair?.get(1) as? VimList)?.values?.map { it.toVimString().value }?.toList()?.toTypedArray()
                 if (functionName == null || wordList == null || wordList.isEmpty())
                     return@mapNotNull null
                 when (functionName) {
