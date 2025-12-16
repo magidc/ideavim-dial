@@ -1,14 +1,13 @@
 package com.magidc.ideavim.dial
 
-import ai.grazie.text.TextRange
-import ai.grazie.text.replace
 import com.maddyhome.idea.vim.api.ExecutionContext
 import com.maddyhome.idea.vim.api.VimEditor
 import com.maddyhome.idea.vim.common.CommandAliasHandler
 import com.maddyhome.idea.vim.ex.ranges.Range
 import com.magidc.ideavim.dial.executor.Executor
 import com.magidc.ideavim.dial.model.Match
-import java.util.*
+import java.util.LinkedList
+import java.util.Optional
 
 class DialCommandHandler(
     private val reverse: Boolean,
@@ -58,7 +57,7 @@ class DialCommandHandler(
 
         if (bestMatch != null) {
             editorAdapter.replace(editor, lineRange, bestMatch)
-            val replacedText = text.replace(TextRange(bestMatch.start, bestMatch.end + 1), bestMatch.replacement)
+            val replacedText = text.replaceRange(bestMatch.start, bestMatch.end + 1, bestMatch.replacement)
             val executor = bestMatch.executor
             if (executor.reusable) {
                 // Cyclic executors (like word sets) are cached for the current position as it is known that they will always match

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.7
+
+Replaces use of ai.grazie functions because of some Intellij versions incompatibility
+
 ## 1.1.6
 
 Updated deprecated methods

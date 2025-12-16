@@ -4,7 +4,7 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java")
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.2.21"
     id("org.jetbrains.intellij.platform") version "2.10.5"
     id("org.jetbrains.changelog") version "2.3.0"
     id("com.diffplug.spotless") version "6.25.0"
