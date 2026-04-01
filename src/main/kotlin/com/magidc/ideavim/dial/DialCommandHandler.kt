@@ -47,7 +47,7 @@ class DialCommandHandler(
         val text = lineRange.text
         val caretOffset = lineRange.caretOffset
         val cacheKey = Pair(caretOffset - text.takeWhile { it.isWhitespace() }.length, text.trimStart())
-        val cachedExecutor = executorCache.get(cacheKey)
+        val cachedExecutor = executorCache[cacheKey]
 
         val bestMatch =
             if (null != cachedExecutor)
