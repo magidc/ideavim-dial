@@ -1,4 +1,7 @@
 # Changelog
+## 1.1.8
+
+Updated to more recent versions of IntelliJ platform and IdeaVim
 
 ## 1.1.7
 
