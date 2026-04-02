@@ -1,10 +1,8 @@
 package com.magidc.ideavim.dial
 
-import com.intellij.openapi.command.WriteCommandAction
 import com.maddyhome.idea.vim.api.VimEditor
 import com.maddyhome.idea.vim.api.getText
-import com.maddyhome.idea.vim.newapi.IjVimDocument
-import com.maddyhome.idea.vim.newapi.ij
+import com.maddyhome.idea.vim.api.injector
 import com.magidc.ideavim.dial.model.LineRange
 import com.magidc.ideavim.dial.model.Match
 
@@ -27,14 +25,14 @@ open class EditorAdapter {
 
     // Replace text in the editor within a write action
     open fun replace(editor: VimEditor, lineRange: LineRange, match: Match) {
-        WriteCommandAction.runWriteCommandAction(editor.ij.project) {
-            val matchStartOffset = lineRange.start + match.start
-            (editor.document as IjVimDocument).document.replaceString(
-                matchStartOffset,
-                lineRange.start + match.end + 1,
-                match.replacement,
-            )
-            editor.currentCaret().moveToOffset(matchStartOffset)
-        }
+        val matchStartOffset = lineRange.start + match.start
+        injector.changeGroup.replaceText(
+            editor,
+            editor.currentCaret(),
+            matchStartOffset,
+            lineRange.start + match.end + 1,
+            match.replacement
+        )
+        editor.currentCaret().moveToOffset(matchStartOffset)
     }
 }
