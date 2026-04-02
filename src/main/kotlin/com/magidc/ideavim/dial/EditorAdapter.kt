@@ -1,8 +1,9 @@
 package com.magidc.ideavim.dial
 
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.util.TextRange
 import com.maddyhome.idea.vim.api.VimEditor
+import com.maddyhome.idea.vim.api.getText
+import com.maddyhome.idea.vim.newapi.IjVimDocument
 import com.maddyhome.idea.vim.newapi.ij
 import com.magidc.ideavim.dial.model.LineRange
 import com.magidc.ideavim.dial.model.Match
@@ -11,15 +12,13 @@ import com.magidc.ideavim.dial.model.Match
 open class EditorAdapter {
     // Extract current line information from the editor
     open fun getLineRange(editor: VimEditor): LineRange {
-        val ijEditor = editor.ij
-        val document = ijEditor.document
-        val caret = ijEditor.caretModel.primaryCaret
-        val line = document.getLineNumber(caret.offset)
-        val lineStart = document.getLineStartOffset(line)
-        val lineEnd = document.getLineEndOffset(line)
+        val caret = editor.currentCaret()
+        val line = editor.currentCaret().getLine()
+        val lineStart = editor.getLineStartOffset(line)
+        val lineEnd = editor.getLineEndOffset(line)
 
         return LineRange(
-            text = document.getText(TextRange(lineStart, lineEnd)),
+            text = editor.getText(lineStart, lineEnd),
             start = lineStart,
             end = lineEnd,
             caretOffset = caret.offset - lineStart,
@@ -30,12 +29,12 @@ open class EditorAdapter {
     open fun replace(editor: VimEditor, lineRange: LineRange, match: Match) {
         WriteCommandAction.runWriteCommandAction(editor.ij.project) {
             val matchStartOffset = lineRange.start + match.start
-            editor.ij.document.replaceString(
+            (editor.document as IjVimDocument).document.replaceString(
                 matchStartOffset,
                 lineRange.start + match.end + 1,
                 match.replacement,
             )
-            editor.ij.caretModel.moveToOffset(matchStartOffset)
+            editor.currentCaret().moveToOffset(matchStartOffset)
         }
     }
 }
